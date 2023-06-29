@@ -6,7 +6,7 @@ on:
     tags: [v*]
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: b68-api
+  IMAGE_NAME: api
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
