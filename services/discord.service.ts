@@ -1,4 +1,3 @@
-import { configKeys } from '..'
 import axios from '../helpers/axios_client'
 import DiscordBotClient from '../helpers/discord_bot.factory'
 
@@ -18,7 +17,7 @@ export default class DiscordService {
     }
 
     public profile = async () => {
-        return DiscordBotClient.getUser(configKeys.DISCORD_SELF_ID)
+        return DiscordBotClient.getUser(process.env.DISCORD_SELF_ID)
     }
 
     public presence = async () => {

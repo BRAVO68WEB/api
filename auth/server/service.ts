@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { configKeys } from '../..'
 import qs from 'qs'
 
 export default class ServiceAccount {
@@ -11,11 +10,11 @@ export default class ServiceAccount {
         const config = {
             method: 'post',
             maxBodyLength: Infinity,
-            url: `${configKeys.KEYCLOAK_AUTH_SERVER_URL}/realms/${configKeys.KEYCLOAK_REALM}/protocol/openid-connect/token`,
+            url: `${process.env.KEYCLOAK_AUTH_SERVER_URL}/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/token`,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 Authorization: `Basic ${Buffer.from(
-                    `${configKeys.KEYCLOAK_CLIENT_ID}:${configKeys.KEYCLOAK_CLIENT_SECRET}`
+                    `${process.env.KEYCLOAK_CLIENT_ID}:${process.env.KEYCLOAK_CLIENT_SECRET}`
                 ).toString('base64')}`,
             },
             data: rdata,
@@ -32,7 +31,7 @@ export default class ServiceAccount {
         const config = {
             method: 'get',
             maxBodyLength: Infinity,
-            url: `${configKeys.KEYCLOAK_AUTH_SERVER_URL}/admin/realms/${configKeys.KEYCLOAK_REALM}/users/${userSub}`,
+            url: `${process.env.KEYCLOAK_AUTH_SERVER_URL}/admin/realms/${process.env.KEYCLOAK_REALM}/users/${userSub}`,
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/x-www-form-urlencoded',

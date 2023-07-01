@@ -1,5 +1,4 @@
 import { S3Client, PutObjectCommand, S3ClientConfig } from '@aws-sdk/client-s3'
-import { configKeys } from '..'
 
 type IUploaderServerType = 's3' | 'r2' | 'safe'
 
@@ -15,24 +14,24 @@ export default class UploaderService {
 
         if (clientType === 's3') {
             const s3ClientOpts: S3ClientConfig = {
-                region: configKeys.S3_BUCKET_REGION || '',
-                endpoint: configKeys.S3_BUCKET_ENDPOINT || '',
+                region: process.env.S3_BUCKET_REGION || '',
+                endpoint: process.env.S3_BUCKET_ENDPOINT || '',
                 forcePathStyle: true,
                 credentials: {
-                    accessKeyId: configKeys.S3_CLIENT_ID || '',
-                    secretAccessKey: configKeys.S3_CLIENT_SECRET || '',
+                    accessKeyId: process.env.S3_CLIENT_ID || '',
+                    secretAccessKey: process.env.S3_CLIENT_SECRET || '',
                 },
             }
             const client = new S3Client(s3ClientOpts)
             UploaderService._s3Client = client
         } else if (clientType === 'r2') {
             const s3ClientOpts: S3ClientConfig = {
-                region: configKeys.R2_BUCKET_REGION || '',
-                endpoint: configKeys.R2_BUCKET_ENDPOINT || '',
+                region: process.env.R2_BUCKET_REGION || '',
+                endpoint: process.env.R2_BUCKET_ENDPOINT || '',
                 forcePathStyle: true,
                 credentials: {
-                    accessKeyId: configKeys.R2_CLIENT_ID || '',
-                    secretAccessKey: configKeys.R2_CLIENT_SECRET || '',
+                    accessKeyId: process.env.R2_CLIENT_ID || '',
+                    secretAccessKey: process.env.R2_CLIENT_SECRET || '',
                 },
             }
             const client = new S3Client(s3ClientOpts)
@@ -57,9 +56,9 @@ export default class UploaderService {
         }
         await UploaderService._s3Client.send(new PutObjectCommand(uploadParams))
         return {
-            url: configKeys.S3_BUCKET_URL,
-            bucket_name: configKeys.S3_BUCKET_NAME,
-            folder: configKeys.S3_BUCKET_FOLDER,
+            url: process.env.S3_BUCKET_URL,
+            bucket_name: process.env.S3_BUCKET_NAME,
+            folder: process.env.S3_BUCKET_FOLDER,
         }
     }
 }

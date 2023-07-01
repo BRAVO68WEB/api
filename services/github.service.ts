@@ -1,7 +1,6 @@
 import axios from '../helpers/axios_client'
-import { configKeys } from '../'
 
-const config = configKeys
+const config = process.env
 
 export default class Github {
     public getGithubUser = async () => {

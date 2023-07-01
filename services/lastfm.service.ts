@@ -1,7 +1,6 @@
 import axiosInstance from '../helpers/axios_client'
-import { configKeys } from '../'
 
-const config = configKeys
+const config = process.env
 
 export default class LastfmService {
     public current = async () => {

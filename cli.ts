@@ -53,7 +53,7 @@ const commands = {
             serviceName.toLocaleLowerCase() + '.routes.ts'
         )
 
-        const serviceTemplate = `import { configKeys } from '..';\n\nexport default class ${serviceName} {}`
+        const serviceTemplate = `export default class ${serviceName} {}`
         const controllerTemplate = `import ${serviceName}Service from '../services/${serviceName.toLocaleLowerCase()}.service';\nimport { Request, Response } from 'express'\nimport { makeResponse } from '../libs'\n\nexport default class ${serviceName}Controller extends ${serviceName}Service {}\n`
         const routesTemplate = `import { Router } from 'express';\nimport ${serviceName}Controller from '../controllers/${serviceName.toLocaleLowerCase()}.controller';\nconst router = Router()\n\nexport default router\n`
 
@@ -76,7 +76,7 @@ const commands = {
             serviceName.toLocaleLowerCase() + '.service.ts'
         )
 
-        const serviceTemplate = `import { configKeys } from '..';\n\nexport default class ${serviceName} {}`
+        const serviceTemplate = `export default class ${serviceName} {}`
 
         if (fs.existsSync(servicePath)) {
             console.log('Already exists')
@@ -95,7 +95,7 @@ const commands = {
             providerName.toLocaleLowerCase() + '.provider.ts'
         )
 
-        const providerTemplate = `import { configKeys } from '..';\n\nexport default class ${providerName} {}`
+        const providerTemplate = `export default class ${providerName} {}`
 
         if (fs.existsSync(providerPath)) {
             console.log('Already exists')
@@ -128,7 +128,7 @@ const commands = {
                 : '_client' + '.ts'
         )
 
-        const helperTemplate = `import { configKeys } from '..';\n\nexport default class ${helperName} {}`
+        const helperTemplate = `export default class ${helperName} {}`
 
         if (fs.existsSync(helperPath)) {
             console.log('Already exists')

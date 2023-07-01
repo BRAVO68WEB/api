@@ -35,7 +35,8 @@
         "osu-api-extended": "2.5.12",
         "ping": "^0.4.4",
         "redis": "^4.5.1",
-        "typescript": "^4.9.3"
+        "typescript": "^4.9.3",
+        "zod": "^3.21.4"
     },
     "scripts": {
         "dev": "concurrently \"npm run dev:express\" \"npm run dev:hasura\"",
@@ -48,6 +49,9 @@
         "cli": "node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm cli.ts"
     },
     "devDependencies": {
+        "@graphql-codegen/cli": "^4.0.1",
+		"@graphql-codegen/typescript": "^4.0.0",
+		"@graphql-codegen/typescript-operations": "^4.0.0",
         "@swc/core": "^1.3.23",
         "@swc/wasm": "^1.3.23",
         "@types/cors": "^2.8.13",

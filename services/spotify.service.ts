@@ -1,8 +1,7 @@
 import axiosInstance from '../helpers/axios_client'
 import spotifyAccessToken from '../helpers/spotify_provider'
-import { configKeys } from '../'
 
-const config = configKeys
+const config = process.env
 
 export default class Spotify {
     private clientID: string = config.SPOTIFY_CLIENT_ID!

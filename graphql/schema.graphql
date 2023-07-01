@@ -14,6 +14,21 @@ directive @cached(
 ) on QUERY
 
 """
+Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
+"""
 Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
 """
 input String_comparison_exp {
@@ -260,6 +275,284 @@ enum cursor_ordering {
   DESC
 }
 
+"""Dev Notes"""
+type devnotes {
+  content: String!
+  created_at: timestamptz!
+  description: String!
+  id: uuid!
+  title: String!
+  updated_at: timestamptz!
+  views: Int!
+}
+
+"""
+aggregated selection of "devnotes"
+"""
+type devnotes_aggregate {
+  aggregate: devnotes_aggregate_fields
+  nodes: [devnotes!]!
+}
+
+"""
+aggregate fields of "devnotes"
+"""
+type devnotes_aggregate_fields {
+  avg: devnotes_avg_fields
+  count(columns: [devnotes_select_column!], distinct: Boolean): Int!
+  max: devnotes_max_fields
+  min: devnotes_min_fields
+  stddev: devnotes_stddev_fields
+  stddev_pop: devnotes_stddev_pop_fields
+  stddev_samp: devnotes_stddev_samp_fields
+  sum: devnotes_sum_fields
+  var_pop: devnotes_var_pop_fields
+  var_samp: devnotes_var_samp_fields
+  variance: devnotes_variance_fields
+}
+
+"""aggregate avg on columns"""
+type devnotes_avg_fields {
+  views: Float
+}
+
+"""
+Boolean expression to filter rows from the table "devnotes". All fields are combined with a logical 'AND'.
+"""
+input devnotes_bool_exp {
+  _and: [devnotes_bool_exp!]
+  _not: devnotes_bool_exp
+  _or: [devnotes_bool_exp!]
+  content: String_comparison_exp
+  created_at: timestamptz_comparison_exp
+  description: String_comparison_exp
+  id: uuid_comparison_exp
+  title: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  views: Int_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "devnotes"
+"""
+enum devnotes_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  devnotes_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "devnotes"
+"""
+input devnotes_inc_input {
+  views: Int
+}
+
+"""
+input type for inserting data into table "devnotes"
+"""
+input devnotes_insert_input {
+  content: String
+  created_at: timestamptz
+  description: String
+  id: uuid
+  title: String
+  updated_at: timestamptz
+  views: Int
+}
+
+"""aggregate max on columns"""
+type devnotes_max_fields {
+  content: String
+  created_at: timestamptz
+  description: String
+  id: uuid
+  title: String
+  updated_at: timestamptz
+  views: Int
+}
+
+"""aggregate min on columns"""
+type devnotes_min_fields {
+  content: String
+  created_at: timestamptz
+  description: String
+  id: uuid
+  title: String
+  updated_at: timestamptz
+  views: Int
+}
+
+"""
+response of any mutation on the table "devnotes"
+"""
+type devnotes_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [devnotes!]!
+}
+
+"""
+on_conflict condition type for table "devnotes"
+"""
+input devnotes_on_conflict {
+  constraint: devnotes_constraint!
+  update_columns: [devnotes_update_column!]! = []
+  where: devnotes_bool_exp
+}
+
+"""Ordering options when selecting data from "devnotes"."""
+input devnotes_order_by {
+  content: order_by
+  created_at: order_by
+  description: order_by
+  id: order_by
+  title: order_by
+  updated_at: order_by
+  views: order_by
+}
+
+"""primary key columns input for table: devnotes"""
+input devnotes_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "devnotes"
+"""
+enum devnotes_select_column {
+  """column name"""
+  content
+
+  """column name"""
+  created_at
+
+  """column name"""
+  description
+
+  """column name"""
+  id
+
+  """column name"""
+  title
+
+  """column name"""
+  updated_at
+
+  """column name"""
+  views
+}
+
+"""
+input type for updating data in table "devnotes"
+"""
+input devnotes_set_input {
+  content: String
+  created_at: timestamptz
+  description: String
+  id: uuid
+  title: String
+  updated_at: timestamptz
+  views: Int
+}
+
+"""aggregate stddev on columns"""
+type devnotes_stddev_fields {
+  views: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type devnotes_stddev_pop_fields {
+  views: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type devnotes_stddev_samp_fields {
+  views: Float
+}
+
+"""
+Streaming cursor of the table "devnotes"
+"""
+input devnotes_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: devnotes_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input devnotes_stream_cursor_value_input {
+  content: String
+  created_at: timestamptz
+  description: String
+  id: uuid
+  title: String
+  updated_at: timestamptz
+  views: Int
+}
+
+"""aggregate sum on columns"""
+type devnotes_sum_fields {
+  views: Int
+}
+
+"""
+update columns of table "devnotes"
+"""
+enum devnotes_update_column {
+  """column name"""
+  content
+
+  """column name"""
+  created_at
+
+  """column name"""
+  description
+
+  """column name"""
+  id
+
+  """column name"""
+  title
+
+  """column name"""
+  updated_at
+
+  """column name"""
+  views
+}
+
+input devnotes_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: devnotes_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: devnotes_set_input
+
+  """filter the rows which have to be updated"""
+  where: devnotes_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type devnotes_var_pop_fields {
+  views: Float
+}
+
+"""aggregate var_samp on columns"""
+type devnotes_var_samp_fields {
+  views: Float
+}
+
+"""aggregate variance on columns"""
+type devnotes_variance_fields {
+  views: Float
+}
+
 """mutation root"""
 type mutation_root {
   """
@@ -274,6 +567,19 @@ type mutation_root {
   delete single row from the table: "apikey"
   """
   delete_apikey_by_pk(user_id: uuid!): apikey
+
+  """
+  delete data from the table: "devnotes"
+  """
+  delete_devnotes(
+    """filter the rows which have to be deleted"""
+    where: devnotes_bool_exp!
+  ): devnotes_mutation_response
+
+  """
+  delete single row from the table: "devnotes"
+  """
+  delete_devnotes_by_pk(id: uuid!): devnotes
 
   """
   insert data into the table: "apikey"
@@ -296,6 +602,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: apikey_on_conflict
   ): apikey
+
+  """
+  insert data into the table: "devnotes"
+  """
+  insert_devnotes(
+    """the rows to be inserted"""
+    objects: [devnotes_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: devnotes_on_conflict
+  ): devnotes_mutation_response
+
+  """
+  insert a single row into the table: "devnotes"
+  """
+  insert_devnotes_one(
+    """the row to be inserted"""
+    object: devnotes_insert_input!
+
+    """upsert condition"""
+    on_conflict: devnotes_on_conflict
+  ): devnotes
 
   """
   update data of the table: "apikey"
@@ -324,6 +652,40 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [apikey_updates!]!
   ): [apikey_mutation_response]
+
+  """
+  update data of the table: "devnotes"
+  """
+  update_devnotes(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: devnotes_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: devnotes_set_input
+
+    """filter the rows which have to be updated"""
+    where: devnotes_bool_exp!
+  ): devnotes_mutation_response
+
+  """
+  update single row of the table: "devnotes"
+  """
+  update_devnotes_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: devnotes_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: devnotes_set_input
+    pk_columns: devnotes_pk_columns_input!
+  ): devnotes
+
+  """
+  update multiples rows of table: "devnotes"
+  """
+  update_devnotes_many(
+    """updates to execute, in order"""
+    updates: [devnotes_updates!]!
+  ): [devnotes_mutation_response]
 }
 
 """column ordering options"""
@@ -390,6 +752,49 @@ type query_root {
 
   """fetch data from the table: "apikey" using primary key columns"""
   apikey_by_pk(user_id: uuid!): apikey
+
+  """
+  fetch data from the table: "devnotes"
+  """
+  devnotes(
+    """distinct select on columns"""
+    distinct_on: [devnotes_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [devnotes_order_by!]
+
+    """filter the rows returned"""
+    where: devnotes_bool_exp
+  ): [devnotes!]!
+
+  """
+  fetch aggregated fields from the table: "devnotes"
+  """
+  devnotes_aggregate(
+    """distinct select on columns"""
+    distinct_on: [devnotes_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [devnotes_order_by!]
+
+    """filter the rows returned"""
+    where: devnotes_bool_exp
+  ): devnotes_aggregate!
+
+  """fetch data from the table: "devnotes" using primary key columns"""
+  devnotes_by_pk(id: uuid!): devnotes
 }
 
 type subscription_root {
@@ -449,6 +854,63 @@ type subscription_root {
     """filter the rows returned"""
     where: apikey_bool_exp
   ): [apikey!]!
+
+  """
+  fetch data from the table: "devnotes"
+  """
+  devnotes(
+    """distinct select on columns"""
+    distinct_on: [devnotes_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [devnotes_order_by!]
+
+    """filter the rows returned"""
+    where: devnotes_bool_exp
+  ): [devnotes!]!
+
+  """
+  fetch aggregated fields from the table: "devnotes"
+  """
+  devnotes_aggregate(
+    """distinct select on columns"""
+    distinct_on: [devnotes_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [devnotes_order_by!]
+
+    """filter the rows returned"""
+    where: devnotes_bool_exp
+  ): devnotes_aggregate!
+
+  """fetch data from the table: "devnotes" using primary key columns"""
+  devnotes_by_pk(id: uuid!): devnotes
+
+  """
+  fetch data from the table in a streaming manner: "devnotes"
+  """
+  devnotes_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [devnotes_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: devnotes_bool_exp
+  ): [devnotes!]!
 }
 
 scalar timestamptz

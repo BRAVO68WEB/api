@@ -1,11 +1,10 @@
 import axios from '../helpers/axios_client'
-import { configKeys } from '../'
 
 export default class GitLab {
     public getGitLabUser = async () => {
         const { data } = await axios.get(`https://gitlab.com/api/v4/user`, {
             headers: {
-                'PRIVATE-TOKEN': `${configKeys.GITLAB_PAT}`,
+                'PRIVATE-TOKEN': `${process.env.GITLAB_PAT}`,
             },
         })
         return data
@@ -16,7 +15,7 @@ export default class GitLab {
             `https://gitlab.com/api/v4/users/${user_id}/projects`,
             {
                 headers: {
-                    'PRIVATE-TOKEN': `${configKeys.GITLAB_PAT}`,
+                    'PRIVATE-TOKEN': `${process.env.GITLAB_PAT}`,
                 },
             }
         )
@@ -26,7 +25,7 @@ export default class GitLab {
     public getGitlabUserSnippets = async () => {
         const { data } = await axios.get(`https://gitlab.com/api/v4/snippets`, {
             headers: {
-                'PRIVATE-TOKEN': `${configKeys.GITLAB_PAT}`,
+                'PRIVATE-TOKEN': `${process.env.GITLAB_PAT}`,
             },
         })
         return data
@@ -37,7 +36,7 @@ export default class GitLab {
             `https://gitlab.com/api/v4/users/${user_id}/followers`,
             {
                 headers: {
-                    'PRIVATE-TOKEN': `${configKeys.GITLAB_PAT}`,
+                    'PRIVATE-TOKEN': `${process.env.GITLAB_PAT}`,
                 },
             }
         )
@@ -49,7 +48,7 @@ export default class GitLab {
             `https://gitlab.com/api/v4/users/${user_id}/following`,
             {
                 headers: {
-                    'PRIVATE-TOKEN': `${configKeys.GITLAB_PAT}`,
+                    'PRIVATE-TOKEN': `${process.env.GITLAB_PAT}`,
                 },
             }
         )
@@ -61,7 +60,7 @@ export default class GitLab {
             `https://gitlab.com/api/v4/users/${user_id}/starred_projects`,
             {
                 headers: {
-                    'PRIVATE-TOKEN': `${configKeys.GITLAB_PAT}`,
+                    'PRIVATE-TOKEN': `${process.env.GITLAB_PAT}`,
                 },
             }
         )
@@ -71,7 +70,7 @@ export default class GitLab {
     public getGitLabUserEvents = async () => {
         const { data } = await axios.get(`https://gitlab.com/api/v4/events`, {
             headers: {
-                'PRIVATE-TOKEN': `${configKeys.GITLAB_PAT}`,
+                'PRIVATE-TOKEN': `${process.env.GITLAB_PAT}`,
             },
         })
         return data

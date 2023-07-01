@@ -1,7 +1,6 @@
 import { v2, auth } from 'osu-api-extended'
-import { configKeys } from '../'
 
-const config = configKeys
+const config = process.env
 
 export default class Osu {
     constructor() {

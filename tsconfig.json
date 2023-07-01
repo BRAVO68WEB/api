@@ -17,7 +17,7 @@
         "noImplicitReturns": false
     },
     "exclude": ["./node_modules/**/*", "./build/**/*"],
-    "include": ["./**/*.ts", "./**/*.tsx", "./**/*.json", "./**/*.js"],
+    "include": ["./**/*.ts", "./**/*.tsx", "./**/*.js"],
     "ts-node": {
         "swc": true
     },
