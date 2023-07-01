@@ -3,6 +3,7 @@ import cors from 'cors'
 import express from 'express'
 import morgan from 'morgan'
 import helmet from 'helmet'
+import RateLimit from 'express-rate-limit'
 
 import { hgqlInit } from './helpers'
 import cacheClient from './helpers/cache.factory'
@@ -28,6 +29,15 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true, limit: '50mb' }))
 app.set('view engine', 'ejs')
 app.set('trust proxy', true)
+
+const limiter = RateLimit({
+    windowMs: 1*60*1000, // 1 minute
+    max: 60
+});
+  
+// apply rate limiter to all requests
+app.use(limiter);
+  
 
 console.log('☄ ', 'Base Route', '/')
 
