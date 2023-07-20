@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import OsuController from '../../../controllers/osu.controller'
 
-const router = Router()
+const router: Router = Router()
 const { fetchBestScores, fetchFavBeatmaps, fetchRecentScores, fetchUser } =
     new OsuController()
 

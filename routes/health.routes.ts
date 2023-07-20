@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import pkg from '../package.json' assert { type: 'json' }
 
-const router = Router()
+const router: Router = Router()
 
 router.use('/', (req, res) => {
     return res.status(200).json({

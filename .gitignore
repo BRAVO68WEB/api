@@ -131,3 +131,7 @@ dist
 
 *.mmdb
 build
+
+pnpm-lock.yaml
+jwtRS256.key
+jwtRS256.key.pub

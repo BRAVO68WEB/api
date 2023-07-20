@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import IPController from '../../controllers/ipinfo.controller'
 
-const router = Router()
+const router: Router = Router()
 const ipController = new IPController()
 
 router.get('/current', ipController.fetchCurrentIPInfo)

@@ -7,7 +7,7 @@ export default class CacheClient {
     private static _redisClient: redis.RedisClientType
     private static _nodeClient: NodeCache
 
-    static get client() {
+    static get client(): void | redis.RedisClientType | NodeCache {
         return this._clientMode === 'production'
             ? this._redisClient
             : this._nodeClient

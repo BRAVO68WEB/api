@@ -2,7 +2,7 @@ import { Router } from 'express'
 import AuthController from '../controllers/auth.controller'
 import { middleware, keyware } from '../auth'
 
-const router = Router()
+const router: Router = Router()
 const authController = new AuthController()
 
 router.get('/signin', authController.signin)

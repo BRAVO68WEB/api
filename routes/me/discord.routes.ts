@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import DiscordController from '../../controllers/discord.controller'
 
-const router = Router()
+const router: Router = Router()
 const { getProfile, getBanner, getActivity, getPresence } =
     new DiscordController()
 

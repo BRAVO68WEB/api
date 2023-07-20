@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import TwitterController from '../../controllers/twitter.controller'
 
-const router = Router()
+const router: Router = Router()
 const { getProfile, getTweets } = new TwitterController()
 
 router.get('/profile', getProfile)

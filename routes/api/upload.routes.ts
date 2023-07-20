@@ -2,7 +2,7 @@ import { UploadFactory } from '../../helpers/upload.factory'
 import { Router } from 'express'
 import UploadController from '../../controllers/upload.controller'
 
-const router = Router()
+const router: Router = Router()
 const uploadController = new UploadController()
 const uploaderFactory = new UploadFactory()
 

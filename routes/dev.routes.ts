@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { makeResponse } from '../libs'
 import SpotifyController from '../controllers/spotify.controller'
 
-const router = Router()
+const router: Router = Router()
 const { login, loginCallback } = new SpotifyController()
 
 router.get('/', (_req, res) => {

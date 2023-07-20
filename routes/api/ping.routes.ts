@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import PingController from '../../controllers/ping.controller'
 
-const router = Router()
+const router: Router = Router()
 const pingController = new PingController()
 
 router.get('/', pingController.ping)

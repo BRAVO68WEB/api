@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import GitlabController from '../../controllers/gitlab.controller'
 
-const router = Router()
+const router: Router = Router()
 const {
     fetchSelfGitLabUser,
     fetchSelfGitLabUserEvents,

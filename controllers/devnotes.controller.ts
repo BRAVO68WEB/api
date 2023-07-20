@@ -3,7 +3,7 @@ import { Request, Response } from 'express'
 import { makeResponse } from '../libs'
 
 export default class DevnotesController extends DevnotesService {
-    public getAll = async (req: Request, res: Response) => {
+    public getAll = async (_req: Request, res: Response) => {
         const devNotes = await this.getAllDevNotes()
         return res.status(200).json(makeResponse(devNotes))
     }

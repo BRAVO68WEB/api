@@ -3,7 +3,7 @@ import LastFMController from '../../controllers/lastfm.controller'
 
 const { fetchTop, fetchCurrent, fetchLoved, fetchUser } = new LastFMController()
 
-const router = Router()
+const router: Router = Router()
 
 router.get('/', fetchUser)
 router.get('/top', fetchTop)

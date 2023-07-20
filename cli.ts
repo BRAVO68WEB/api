@@ -55,7 +55,7 @@ const commands = {
 
         const serviceTemplate = `export default class ${serviceName} {}`
         const controllerTemplate = `import ${serviceName}Service from '../services/${serviceName.toLocaleLowerCase()}.service';\nimport { Request, Response } from 'express'\nimport { makeResponse } from '../libs'\n\nexport default class ${serviceName}Controller extends ${serviceName}Service {}\n`
-        const routesTemplate = `import { Router } from 'express';\nimport ${serviceName}Controller from '../controllers/${serviceName.toLocaleLowerCase()}.controller';\nconst router = Router()\n\nexport default router\n`
+        const routesTemplate = `import { Router } from 'express';\nimport ${serviceName}Controller from '../controllers/${serviceName.toLocaleLowerCase()}.controller';\nconst router: Router = Router()\n\nexport default router\n`
 
         if (fs.existsSync(servicePath || controllerPath || routesPath)) {
             console.log('Already exists')

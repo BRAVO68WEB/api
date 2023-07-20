@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import { makeResponse } from '../../libs'
 
-const router = Router()
+const router: Router = Router()
 
 router.get('/', (req, res) => {
     res.send(makeResponse({ message: 'Hello World me!' }))

@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import GithubController from '../../controllers/github.controller'
 
-const router = Router()
+const router: Router = Router()
 const {
     fetchSelfGithubUser,
     fetchSelfGithubUserEvents,

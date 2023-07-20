@@ -8,7 +8,7 @@ const __dirname = dirname(__filename)
 
 import { Router } from 'express'
 
-const router = Router()
+const router: Router = Router()
 
 const isCompiled = path.extname(__filename) === '.js'
 const thisFileName = path.basename(__filename)
