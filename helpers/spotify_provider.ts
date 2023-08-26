@@ -1,10 +1,9 @@
 import axios from 'axios'
-import qs from 'qs'
 
-let data = qs.stringify({
+let data = {
     grant_type: 'refresh_token',
     refresh_token: `${process.env.SPOTIFY_REFRESH_TOKEN}`,
-})
+}
 
 let config = {
     method: 'post',

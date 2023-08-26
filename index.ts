@@ -28,7 +28,7 @@ app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true, limit: '50mb' }))
 app.set('view engine', 'ejs')
-app.set('trust proxy', true)
+// app.set('trust proxy', true)
 
 const limiter = RateLimit({
     windowMs: 1*60*1000, // 1 minute
@@ -47,5 +47,5 @@ app.use(notFoundHandler)
 app.use(errorHandler)
 
 app.listen(process.env.PORT, () => {
-    console.log(`\n🌈 Server running on port ${process.env.PORT}`)
+    console.log(`\n🌈 Server running at http://localhost:${process.env.PORT}`)
 })
