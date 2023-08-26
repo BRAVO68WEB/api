@@ -1,11 +1,10 @@
 import axios from 'axios'
-import qs from 'qs'
 
 export default class ServiceAccount {
     public serviceAccount = async () => {
-        const rdata = qs.stringify({
+        const rdata = {
             grant_type: 'client_credentials',
-        })
+        }
 
         const config = {
             method: 'post',
@@ -26,6 +25,7 @@ export default class ServiceAccount {
             service_creds: data.access_token,
         }
     }
+
 
     public fetchUser = async (token: string, userSub: string) => {
         const config = {

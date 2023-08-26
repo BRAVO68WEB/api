@@ -131,3 +131,6 @@ dist
 
 *.mmdb
 build
+
+*.key
+*.pub
