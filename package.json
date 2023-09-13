@@ -36,7 +36,7 @@
         "osu-api-extended": "2.7.67",
         "ping": "^0.4.4",
         "redis": "^4.5.1",
-        "typescript": "^4.9.3",
+        "typescript": "^5.2.2",
         "zod": "^3.21.4"
     },
     "scripts": {
