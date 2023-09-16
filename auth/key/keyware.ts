@@ -1,19 +1,16 @@
-import { NextFunction, Response } from 'express'
-import { ModRequest } from '../../types'
-import { CustomError } from '../../libs/error'
+import { Context, Next } from 'hono'
 import { APIKey } from './apikey'
 import ServiceAccount from '../server/service'
 
 export const serviceAccount = new ServiceAccount()
 
 export const keyware = async (
-    req: ModRequest | any,
-    _res: Response,
-    next: NextFunction
+    ctx: Context,
+    next: Next
 ) => {
     const authClient = new APIKey()
     try {
-        const authHeader = req.headers?.['x-api-key']
+        const authHeader = ctx.req.header('x-api-key') as string
         if (!authHeader) {
             throw new Error('No x-api-key header found !!')
         }
@@ -40,18 +37,15 @@ export const keyware = async (
             })
         }
 
-        req.user = {
+        ctx.set('user', {
             userData: user,
             tokenData: decoded,
-        }
+        })
 
         next()
-    } catch (err: any) {
-        next(
-            new CustomError({
-                message: err.message,
-                statusCode: 401,
-            })
-        )
+    } catch (err) {
+        return ctx.json({
+            message: "You're not authorized to access this resource",
+        })
     }
 }

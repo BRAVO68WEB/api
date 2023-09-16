@@ -1,19 +1,18 @@
-import { NextFunction, Response } from 'express'
 import { authClient } from '../helpers/auth_client'
-import { ModRequest } from '../types'
-import { CustomError } from '../libs/error'
+import { Context, Next } from 'hono'
 
 export const middleware = async (
-    req: ModRequest | any,
-    _res: Response,
-    next: NextFunction
+    ctx: Context,
+    next: Next
 ) => {
     try {
-        const authHeader = req.headers?.authorization?.split(' ')
+        let authHeader: string = ctx.req.header('authorization') as string
+        authHeader = authHeader.split(' ')[1]
+
         if (!authHeader) {
             throw new Error('No authorization header')
         }
-        const token: string = authHeader[1]
+        const token: string = authHeader
         const decoded = await authClient.introspect(token)
         const user = await authClient.userinfo(token, {
             method: 'GET',
@@ -28,17 +27,15 @@ export const middleware = async (
             throw new Error('No user')
         }
 
-        req.user = {
+        ctx.set('user', {
             userData: user,
             tokenData: decoded,
-        }
-        next()
+        })
+
+        await next()
     } catch (err) {
-        next(
-            new CustomError({
-                message: 'Invalid token',
-                statusCode: 401,
-            })
-        )
+        return ctx.json({
+            message: "You're not authorized to access this resource",
+        })
     }
 }

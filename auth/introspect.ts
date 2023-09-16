@@ -1,19 +1,16 @@
-import { NextFunction, Response } from 'express'
 import { authClient } from '../helpers/auth_client'
-import { ModRequest } from '../types'
-import { CustomError } from '../libs/error'
+import { Context } from 'hono'
 
 export const introspect = async (
-    req: ModRequest | any,
-    _res: Response,
-    next: NextFunction
+    ctx: Context
 ) => {
     try {
-        const authHeader = req.headers?.authorization?.split(' ')
+        let authHeader = ctx.req.header('authorization') as string
+        authHeader = authHeader.split(' ')[1]
         if (!authHeader) {
             throw new Error('No authorization header')
         }
-        const token: string = authHeader[1]
+        const token: string = authHeader
         const decoded = await authClient.introspect(token)
 
         if (!decoded) {
@@ -22,11 +19,8 @@ export const introspect = async (
 
         return decoded
     } catch (err) {
-        next(
-            new CustomError({
-                message: 'Invalid token',
-                statusCode: 401,
-            })
-        )
+        return ctx.json({
+            message: "Invalid Token",
+        })
     }
 }

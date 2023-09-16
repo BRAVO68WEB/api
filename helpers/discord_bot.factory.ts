@@ -3,9 +3,9 @@ import { WebSocketManager } from '@discordjs/ws'
 import { GatewayIntentBits, Client } from '@discordjs/core'
 export default class DiscordBotClient {
     public static _client: Client
-    private static _rest: REST
+    public static _rest: REST
     public static _gateway: WebSocketManager
-    private static _currentPresence
+    public static _currentPresence
 
     public static init() {
         this._rest = new REST({ version: '10' }).setToken(

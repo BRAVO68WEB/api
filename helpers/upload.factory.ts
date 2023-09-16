@@ -1,6 +1,6 @@
 import multer from 'multer'
 import path from 'path'
-import { nanoid } from 'napi-nanoid'
+import { nanoid } from 'nanoid'
 interface UploaderConfig {
     mimeFilters: string[]
 }

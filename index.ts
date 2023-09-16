@@ -1,9 +1,8 @@
-import 'dotenv/config'
-import cors from 'cors'
-import express from 'express'
-import morgan from 'morgan'
-import helmet from 'helmet'
-import RateLimit from 'express-rate-limit'
+// import 'dotenv/config'
+import { Hono } from 'hono'
+import { cors } from 'hono/cors'
+import { logger } from 'hono/logger'
+import { serveStatic } from 'hono/bun'
 
 import { hgqlInit } from './helpers'
 import cacheClient from './helpers/cache.factory'
@@ -13,7 +12,7 @@ import pkg from './package.json' assert { type: 'json' }
 import './configs'
 import discordBotConnect from './helpers/discord_bot_client'
 
-export const app: express.Application = express()
+export const app = new Hono()
 
 console.log('🚀', '@b68/api', 'v' + pkg.version)
 
@@ -22,30 +21,25 @@ cacheClient.init()
 
 discordBotConnect()
 
-app.use(cors())
-app.use(helmet())
-app.use(morgan('dev'))
-app.use(express.json())
-app.use(express.urlencoded({ extended: true, limit: '50mb' }))
-app.set('view engine', 'ejs')
-// app.set('trust proxy', true)
+app.use("*", cors({
+    origin: '*',
+    allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
+    credentials: true,
+    maxAge: 86400,
+}))
 
-const limiter = RateLimit({
-    windowMs: 1*60*1000, // 1 minute
-    max: 60
-});
+app.use("*", logger())
   
-// apply rate limiter to all requests
-app.use(limiter);
-  
-
 console.log('☄ ', 'Base Route', '/')
 
-app.use('/', routes)
+app.route('/', routes)
 
-app.use(notFoundHandler)
-app.use(errorHandler)
+app.use("*", serveStatic({
+    root: 'public',
+}))
 
-app.listen(process.env.PORT, () => {
-    console.log(`\n🌈 Server running at http://localhost:${process.env.PORT}`)
-})
+// app.listen(process.env.PORT, () => {
+//     console.log(`\n🌈 Server running at http://localhost:${process.env.PORT}`)
+// })
+
+export default app

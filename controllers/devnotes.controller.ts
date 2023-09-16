@@ -1,30 +1,35 @@
 import DevnotesService from '../services/devnotes.service';
-import { Request, Response } from 'express'
+import { Context } from 'hono';
 import { makeResponse } from '../libs'
 
 export default class DevnotesController extends DevnotesService {
-    public getAll = async (_req: Request, res: Response) => {
+    public getAll = async (ctx: Context) => {
         const devNotes = await this.getAllDevNotes()
-        return res.status(200).json(makeResponse(devNotes))
+        return ctx.json(makeResponse(devNotes))
     }
 
-    public get = async (req: Request, res: Response) => {
-        const devNote = await this.getDevNote(req.params.id)
-        return res.status(200).json(makeResponse(devNote))
+    public get = async (ctx: Context) => {
+        const { param } = ctx.req
+        const devNote = await this.getDevNote(param('id'))
+        return ctx.json(makeResponse(devNote))
     }
 
-    public create = async (req: Request, res: Response) => {
-        const devNote = await this.createDevNote(req.body.title, req.body.description, req.body.content)
-        return res.status(200).json(makeResponse(devNote))
+    public create = async (ctx: Context) => {
+        const body =  await ctx.req.json()
+        const devNote = await this.createDevNote(body.title, body.description, body.content)
+        return ctx.json(makeResponse(devNote))
     }
 
-    public update = async (req: Request, res: Response) => {
-        const devNote = await this.updateDevNote(req.params.id, req.body)
-        return res.status(200).json(makeResponse(devNote))
+    public update = async (ctx: Context) => {
+        const { param } = ctx.req
+        const body =  await ctx.req.json()
+        const devNote = await this.updateDevNote(param('id'), body)
+        return ctx.json(makeResponse(devNote))
     }
 
-    public delete = async (req: Request, res: Response) => {
-        const devNote = await this.deleteDevNote(req.params.id)
-        return res.status(200).json(makeResponse(devNote))
+    public delete = async (ctx: Context) => {
+        const { param } = ctx.req
+        const devNote = await this.deleteDevNote(param('id'))
+        return ctx.json(makeResponse(devNote))
     }
 }
