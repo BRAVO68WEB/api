@@ -43,10 +43,9 @@
     "zod": "^3.22.2"
   },
   "scripts": {
-    "dev": "concurrently \"npm run dev:express\" \"npm run dev:hasura\"",
-    "bun:dev": "bun run --hot index.ts",
-    "dev:hasura": "cd hasura && hasura --skip-update-check  --envfile ../.env console --no-browser",
-    "dev:express": "cross-env NODE_ENV=development nodemon -x node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm index.ts --signal SIGKILL",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:hasura\"",
+    "dev:hasura": "cd hasura && npx hasura --skip-update-check  --envfile ../.env console --no-browser",
+    "dev:api": "bun run --hot index.ts",
     "build": "tsc",
     "start": "node --es-module-specifier-resolution=node --loader ts-node/esm ./build/index.js",
     "prettier": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
@@ -70,7 +69,7 @@
     "eslint": "^8.48.0",
     "eslint-plugin-react": "^7.33.2",
     "graphqurl": "^1.0.1",
-    "hasura-cli": "^2.32.1",
+    "hasura-cli": "^2.33.4",
     "prettier": "^2.8.8",
     "ts-node": "^10.9.1",
     "bun-types": "latest"
