@@ -7,7 +7,7 @@ import { serveStatic } from 'hono/bun'
 import { hgqlInit } from './helpers'
 import cacheClient from './helpers/cache.factory'
 import routes from './routes'
-import { errorHandler, notFoundHandler } from './libs'
+// import { errorHandler, notFoundHandler } from './libs'
 import pkg from './package.json' assert { type: 'json' }
 import './configs'
 import discordBotConnect from './helpers/discord_bot_client'

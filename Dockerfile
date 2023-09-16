@@ -1,15 +1,15 @@
-FROM node:alpine
+FROM oven/bun:latest
 
 WORKDIR /usr/src/app
 
 COPY package.json ./
 
-RUN yarn
+RUN bun i
 
 COPY . .
 
-RUN yarn build
+RUN bun run build
 
 EXPOSE 9000
 
-CMD [ "yarn", "start" ]
+CMD [ "bun", "run", "--hot", "index.ts" ]

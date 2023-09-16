@@ -1,5 +1,4 @@
 import { authClient } from '../helpers/auth_client'
-import { CustomError } from '../libs/error'
 import { Context } from 'hono'
 
 export const revoke = async (
