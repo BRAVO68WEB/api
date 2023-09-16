@@ -35,7 +35,7 @@
     "napi-nanoid": "^0.2.0",
     "node-cache": "^5.1.2",
     "nodemailer": "^6.9.4",
-    "openid-client": "^5.4.3",
+    "openid-client": "https://github.com/BRAVO68WEB/node-openid-client#f871933",
     "osu-api-extended": "2.5.12",
     "ping": "^0.4.4",
     "redis": "^4.6.8",
@@ -72,7 +72,11 @@
     "graphqurl": "^1.0.1",
     "hasura-cli": "^2.32.1",
     "prettier": "^2.8.8",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "bun-types": "latest"
   },
-  "prettier": "@bravo68web/prettier-config"
+  "prettier": "@bravo68web/prettier-config",
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
 }
