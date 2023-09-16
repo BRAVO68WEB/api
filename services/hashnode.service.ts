@@ -3,49 +3,65 @@ import axiosInstance from '../helpers/axios_client'
 export default class HashnodeService {
     public getHashnodeProfile = async () => {
         const query = `
-            query {
-                user(username: "bravo68web") {
-                    name
-                    username
-                    tagline
-                    dateJoined
-                    socialMedia {
-                        twitter
-                        github
-                        stackoverflow
-                        linkedin
-                        google
-                        website
-                        facebook
+        query {
+            user(username: "bravo68web") {
+              name
+              bio
+              username
+              tagline
+              dateJoined
+              socialMediaLinks {
+                twitter
+                github
+                stackoverflow
+                linkedin
+                website
+              }
+              followersCount
+              followingsCount
+              location
+              profilePicture
+              publications(first: 1) {
+                edges {
+                  node {
+                    author {
+                      id
                     }
-                    numFollowing
-                    numFollowers
-                    location
-                    photo
-                    coverImage
-                    publicationDomain
-                    numPosts
-                    numReactions
-                    publication {
-                        author
-                        domain
-                        title
-                        logo
-                        metaHTML
-                        description
-                        links {
-                            website
-                            github
-                            hashnode
-                        }
+                    domainInfo {
+                      domain {
+                        host
+                        ready
+                      }
+                      hashnodeSubdomain
                     }
-                    blogHandle
+                    title
+                    ogMetaData {
+                      image
+                    }
+                    metaTags
+                    descriptionSEO
+                    links {
+                      twitter
+                      instagram
+                      github
+                      website
+                      linkedin
+                      hashnode
+                    }
+                  }
                 }
+              }
+              badges {
+                name
+                description
+              }
+              isPro
             }
+          }
         `
 
         const { data } = await axiosInstance.post(
-            'https://api.hashnode.com/',
+            'https://gql.hashnode.com',
             {
                 query,
             },

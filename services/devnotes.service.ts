@@ -21,7 +21,7 @@ export default class DevnotesService {
 
     public getDevNote = async (id: string) => {
         const query = gql`
-            query {
+            query getDevNoteById($id: uuid!) {
                 devnotes_by_pk(id: $id) {
                     id
                     title
@@ -41,7 +41,7 @@ export default class DevnotesService {
 
     public createDevNote = async (title: string, description: string, content: string) => {
         const mutation = gql`
-            mutation {
+            mutation createDevNote($title: String!, $description: String!, $content: String!){
                 insert_devnotes_one(object: {title: $title, description: $description, content: $content}) {
                     id
                     title
@@ -63,7 +63,7 @@ export default class DevnotesService {
 
     public updateDevNote = async (id: string, updateData: any) => {
         const mutation = gql`
-            mutation {
+            mutation updateDevNoteById($id: uuid!, $updateData: devnotes_set_input!) {
                 update_devnotes_by_pk(pk_columns: {id: $id}, _set: $updateData) {
                     id
                     title
@@ -84,7 +84,7 @@ export default class DevnotesService {
 
     public deleteDevNote = async (id: string) => {
         const mutation = gql`
-            mutation {
+            mutation deleteDevNoteById($id: uuid!){
                 delete_devnotes_by_pk(id: $id) {
                     id
                     title

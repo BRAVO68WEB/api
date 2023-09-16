@@ -1,24 +1,25 @@
 import SpotifyService from '../services/spotify.service'
-import { Request, Response } from 'express'
+import { Context } from 'hono'
 import { makeResponse } from '../libs'
 
 export default class SpotifyController extends SpotifyService {
-    public login = async (_req: Request, res: Response) => {
+    public login = async (ctx: Context) => {
         const data = await this.loginAuth()
-        res.redirect(data)
+        return ctx.redirect(data)
     }
 
-    public loginCallback = async (req: Request, res: Response) => {
-        const data = await this.loginAuthCallback(req.query.code as string)
-        res.send(data)
+    public loginCallback = async (ctx: Context) => {
+        const { code } = ctx.req.query()
+        const data = await this.loginAuthCallback(code)
+        return ctx.json(data)
     }
 
-    public fetchSpotifyTopSongs = async (_req: Request, res: Response) => {
+    public fetchSpotifyTopSongs = async (ctx: Context) => {
         try {
             const data = await this.getSpotifyTopSongs()
-            res.send(makeResponse(data))
+            ctx.json(makeResponse(data))
         } catch (err: any) {
-            res.send(makeResponse(err.message, {}, 'Failed', true))
+            ctx.json(makeResponse(err.message, {}, 'Failed', true))
         }
     }
 }

@@ -1,6 +1,7 @@
-import { Router } from 'express';
+import { Hono } from 'hono';
 import DevnotesController from '../controllers/devnotes.controller';
-const router: Router = Router()
+
+const router = new Hono()
 
 const devnotesController = new DevnotesController()
 

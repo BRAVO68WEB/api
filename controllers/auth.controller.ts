@@ -1,8 +1,7 @@
-import { NextFunction, Request, Response } from 'express'
 import { makeResponse } from '../libs'
-import { ModRequest } from '../types'
+import { Context } from 'hono'
 import {
-    callback,
+    callbackOn,
     introspect,
     refresh,
     signon,
@@ -15,102 +14,108 @@ import {
 } from '../auth'
 
 export default class AuthController extends APIKey {
-    public signin = (_req: Request, res: Response) => {
+    public signin = (ctx: Context) => {
         const { authurl } = signon()
-        res.redirect(authurl)
+        return ctx.redirect(authurl)
     }
 
-    public signinCLI = (_req: Request, res: Response) => {
+    public signinCLI = (ctx: Context) => {
         const { authurl } = signonCLI()
-        res.redirect(authurl)
+        return ctx.redirect(authurl)
     }
 
-    public signinAPP = (_req: Request, res: Response) => {
+    public signinAPP = (ctx: Context) => {
         const { authurl } = signonApp()
-        res.redirect(authurl)
+        return ctx.redirect(authurl)
     }
 
-    public callback = async (req: Request, res: Response) => {
-        const { session_state, code } = req.query as {
-            session_state: string
-            code: string
+    public callback = async (ctx: Context) => {
+        try {
+            const { session_state, code } = ctx.req.query()
+            const response = await callbackOn(session_state, code)
+            return ctx.json(makeResponse(response))
         }
-        res.send(makeResponse(await callback(session_state, code)))
-    }
-
-    public callbackCLI = async (req: Request, res: Response) => {
-        const { session_state, code } = req.query as {
-            session_state: string
-            code: string
+        catch (err) {
+            console.log(err)
+            return ctx.json(makeResponse("Callback Failed", {}, 'Failed', true))
         }
-        res.send(makeResponse(await callbackCLI(session_state, code)))
     }
 
-    public callbackAPP = async (req: Request, res: Response) => {
-        const { session_state, code } = req.query as {
-            session_state: string
-            code: string
-        }
-        res.send(makeResponse(await callbackApp(session_state, code)))
+    public callbackCLI = async (ctx: Context) => {
+        const { session_state, code } = ctx.req.query()
+        return ctx.json(makeResponse(await callbackCLI(session_state, code)))
     }
 
-    public me = (req: ModRequest, res: Response) => {
-        res.send(makeResponse(req.user.userData))
+    public callbackAPP = async (ctx: Context) => {
+        const { session_state, code } = ctx.req.query()
+        return ctx.json(makeResponse(await callbackApp(session_state, code)))
     }
 
-    public logout = async (req: Request, res: Response, next: NextFunction) => {
-        res.send(makeResponse(await revoke(req, res, next)))
+    public me = (ctx: Context) => {
+        const user = ctx.get('user')
+        return ctx.json(makeResponse(user.userData))
+    }
+
+    public logout = async (ctx: Context) => {
+        return ctx.json(makeResponse(await revoke(ctx)))
     }
 
     public refresh = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
+        ctx: Context
     ) => {
-        res.send(makeResponse(await refresh(req, res, next)))
+        return ctx.json(makeResponse(await refresh(ctx)))
     }
 
     public introspect = async (
-        req: Request,
-        res: Response,
-        next: NextFunction
+        ctx: Context
     ) => {
-        res.send(makeResponse(await introspect(req, res, next)))
+        return ctx.json(makeResponse(await introspect(ctx)))
     }
 
-    public createKey = async (req: ModRequest | any, res: Response) => {
-        res.send(
-            makeResponse(await this.createKeyS(req.user.userData.sub))
-        ).status(201)
+    public createKey = async (ctx: Context) => {
+        const user = ctx.get('user')
+        return ctx.json(
+            makeResponse(await this.createKeyS(user.userData.sub))
+        )
     }
 
-    public fetchKey = async (req: ModRequest | any, res: Response) => {
-        res.send(makeResponse(await this.fetchKeyS(req.user.userData.sub)))
+    public fetchKey = async (ctx: Context) => {
+        const user = ctx.get('user')
+        return ctx.json(makeResponse(await this.fetchKeyS(user.userData.sub)))
     }
 
-    public deleteKey = async (req: ModRequest | any, res: Response) => {
-        res.send(
-            makeResponse(await this.deleteKeyS(req.user.userData.sub))
-        ).status(204)
+    public deleteKey = async (ctx: Context) => {
+        const user = ctx.get('user')
+        return ctx.json(
+            makeResponse(await this.deleteKeyS(user.userData.sub))
+        )
     }
 
-    public validateKey = async (req: ModRequest, res: Response) => {
+    public validateKeyHeader = async (ctx: Context) => {
         let api_key
-        if (req.method === 'POST') {
-            api_key = req.body.api_key
-            if (!api_key) {
-                return res
-                    .status(400)
-                    .send(makeResponse(null, 'Invalid api_key'))
-            }
-        } else if (req.method === 'GET') {
-            api_key = req.headers?.['x-api-key']
-            if (!api_key) {
-                return res
-                    .status(400)
-                    .send(makeResponse(null, 'Invalid api_key'))
-            }
+        api_key = ctx.req.header('x-api-key')
+        if (!api_key) {
+            return ctx.json(
+                makeResponse('No API Key provided !!', {}, 'Failed', true)
+            )
         }
-        res.send(makeResponse(await this.validateKeyS(api_key)))
+        else {
+            const valData = await this.validateKeyS(api_key)
+            return ctx.json(makeResponse(valData))
+        }
+    }
+
+    public validateKeyBody = async (ctx: Context) => {
+        const body = await ctx.req.json()
+        const api_key = body.api_key
+        if (!api_key) {
+            return ctx.json(
+                makeResponse('No API Key provided !!', {}, 'Failed', true)
+            )
+        }
+        else {
+            const valData = await this.validateKeyS(api_key)
+            return ctx.json(makeResponse(valData))
+        }
     }
 }
