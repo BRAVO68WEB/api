@@ -42,7 +42,7 @@ export const keyware = async (
             tokenData: decoded,
         })
 
-        next()
+        await next()
     } catch (err) {
         return ctx.json({
             message: "You're not authorized to access this resource",

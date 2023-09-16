@@ -21,7 +21,7 @@ router.get('/introspect', middleware, authController.introspect)
 router.put('/key', middleware, authController.createKey)
 router.get('/key', middleware, authController.fetchKey)
 router.delete('/key', middleware, authController.deleteKey)
-router.post('/key/verify', authController.validateKey)
-router.get('/key/verify', keyware, authController.validateKey)
+router.post('/key/verify', authController.validateKeyBody)
+router.get('/key/verify', keyware, authController.validateKeyHeader)
 
 export default router

@@ -91,43 +91,31 @@ export default class AuthController extends APIKey {
         )
     }
 
-    public validateKey = async (ctx: Context) => {
-        let fail_attempt = false
-        if (ctx.req.method === 'POST') {
-            let api_key
-            const body = await ctx.req.json()
-            api_key = body.api_key
-            if (!api_key) {
-                fail_attempt = true
-            }
-            if (fail_attempt) {
-                return ctx.json(
-                    makeResponse('No API Key provided !!', {}, 'Failed', true)
-                )
-            }
-            else {
-                const valData = await this.validateKeyS(api_key)
-                return ctx.json(makeResponse(valData))
-            }
-        } else if (ctx.req.method === 'GET') {
-            let api_key
-            api_key = ctx.req.header('x-api-key')
-            if (!api_key) {
-                fail_attempt = true
-            }
-            if (fail_attempt) {
-                return ctx.json(
-                    makeResponse('No API Key provided !!', {}, 'Failed', true)
-                )
-            }
-            else {
-                const valData = await this.validateKeyS(api_key)
-                return ctx.json(makeResponse(valData))
-            }
-        } else {
+    public validateKeyHeader = async (ctx: Context) => {
+        let api_key
+        api_key = ctx.req.header('x-api-key')
+        if (!api_key) {
             return ctx.json(
-                makeResponse('Invalid Request Method !!', {}, 'Failed', true)
+                makeResponse('No API Key provided !!', {}, 'Failed', true)
             )
+        }
+        else {
+            const valData = await this.validateKeyS(api_key)
+            return ctx.json(makeResponse(valData))
+        }
+    }
+
+    public validateKeyBody = async (ctx: Context) => {
+        const body = await ctx.req.json()
+        const api_key = body.api_key
+        if (!api_key) {
+            return ctx.json(
+                makeResponse('No API Key provided !!', {}, 'Failed', true)
+            )
+        }
+        else {
+            const valData = await this.validateKeyS(api_key)
+            return ctx.json(makeResponse(valData))
         }
     }
 }
