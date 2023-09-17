@@ -1,13 +1,12 @@
 import { Hono } from "hono";
 
 import appRouter from "../app/main";
-import me from "./me";
 import api from "./api";
-
-import health from "./health.routes";
-import devnotes from "./devnotes.routes";
-import dev from "./dev.routes";
 import auth from "./auth.routes";
+import dev from "./dev.routes";
+import devnotes from "./devnotes.routes";
+import health from "./health.routes";
+import me from "./me";
 
 const router = new Hono();
 

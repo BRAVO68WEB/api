@@ -1,6 +1,7 @@
-import AuthController from "../controllers/auth.controller";
-import { middleware, keyware } from "../auth";
 import { Hono } from "hono";
+
+import { keyware,middleware } from "../auth";
+import AuthController from "../controllers/auth.controller";
 
 const router = new Hono();
 const authController = new AuthController();

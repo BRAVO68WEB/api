@@ -24,8 +24,8 @@ const ConfigValue: MailerConfigValues = {
         port: Number(process.env.MAIL_PORT),
         secure: false,
         auth: {
-            user: process.env.MAIL_USER!,
-            pass: process.env.MAIL_PASS!,
+            user: process.env.MAIL_USER,
+            pass: process.env.MAIL_PASS,
         },
         logger: Boolean(process.env.MAIL_LOGGER),
         from_email: process.env.MAIL_FROM_EMAIL,
@@ -36,8 +36,8 @@ const ConfigValue: MailerConfigValues = {
         port: Number(process.env.MAIL_PORT),
         secure: false,
         auth: {
-            user: process.env.MAIL_USER!,
-            pass: process.env.MAIL_PASS!,
+            user: process.env.MAIL_USER,
+            pass: process.env.MAIL_PASS,
         },
         logger: Boolean(process.env.MAIL_LOGGER),
         from_email: process.env.MAIL_FROM_EMAIL,

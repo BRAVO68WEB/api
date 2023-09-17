@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+
 import DevnotesController from "../controllers/devnotes.controller";
 
 const router = new Hono();

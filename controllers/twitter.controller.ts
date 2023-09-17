@@ -1,4 +1,5 @@
 import { Context } from "hono";
+
 import { makeResponse } from "../libs";
 import TwitterService from "../services/twitter.service";
 
@@ -7,8 +8,8 @@ export default class TwitterController extends TwitterService {
         try {
             const data = await this.getSelfUserTweets();
             return ctx.json(data);
-        } catch (err: any) {
-            return ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
+        } catch {
+            return ctx.json(makeResponse("Error with Twitter API", {}, "Failed", true), 401);
         }
     };
 
@@ -16,8 +17,8 @@ export default class TwitterController extends TwitterService {
         try {
             const data = await this.getSelfUserProfile();
             return ctx.json(data);
-        } catch (err: any) {
-            return ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
+        } catch {
+            return ctx.json(makeResponse("Error with Twitter API", {}, "Failed", true), 401);
         }
     };
 }

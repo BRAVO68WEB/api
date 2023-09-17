@@ -4,16 +4,14 @@ import spotifyAccessToken from "../helpers/spotify_provider";
 const config = process.env;
 
 export default class Spotify {
-    private clientID: string = config.SPOTIFY_CLIENT_ID!;
-    private clientSecret: string = config.SPOTIFY_CLIENT_SECRET!;
+    private clientID: string = config.SPOTIFY_CLIENT_ID;
+    private clientSecret: string = config.SPOTIFY_CLIENT_SECRET;
 
     public loginAuth = async () => {
         // let state = crypto.getRandomValues(new Uint32Array(1));
-        const data =
-            `https://accounts.spotify.com/authorize?client_id=` +
+        return "https://accounts.spotify.com/authorize?client_id=" +
             this.clientID +
             `&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&scope=user-follow-read,user-library-read,user-read-recently-played,user-top-read,user-read-email,user-read-currently-playing`;
-        return data;
     };
 
     public loginAuthCallback = async (code: string) => {

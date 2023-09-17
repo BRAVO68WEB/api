@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+
 import WakatimeController from "../../controllers/wakatime.controller";
 
 const router = new Hono();
@@ -7,8 +8,7 @@ const {
     last7DaysCode,
     last7DaysLanguages,
     profile,
-}: { allTimeCode: any; last7DaysCode: any; last7DaysLanguages: any; profile: any } =
-    new WakatimeController();
+} = new WakatimeController();
 
 router.get("/", profile);
 router.get("/LanguageUsageInLast7Days", last7DaysLanguages);

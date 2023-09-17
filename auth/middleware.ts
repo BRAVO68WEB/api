@@ -1,5 +1,6 @@
-import { authClient } from "../helpers/auth_client";
 import { Context, Next } from "hono";
+
+import { authClient } from "../helpers/auth_client";
 
 export const middleware = async (ctx: Context, next: Next) => {
     try {
@@ -30,7 +31,7 @@ export const middleware = async (ctx: Context, next: Next) => {
         });
 
         await next();
-    } catch (err) {
+    } catch {
         return ctx.json({
             message: "You're not authorized to access this resource",
         });

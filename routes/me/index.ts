@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 
-import discord from './discord.routes';
+import discord from "./discord.routes";
 
 const router = new Hono();
 

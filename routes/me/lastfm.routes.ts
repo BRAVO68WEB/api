@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+
 import LastFMController from "../../controllers/lastfm.controller";
 
 const { fetchTop, fetchCurrent, fetchLoved, fetchUser } = new LastFMController();

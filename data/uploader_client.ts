@@ -1,5 +1,5 @@
-import { Upload } from "@aws-sdk/lib-storage";
 import { S3Client, S3ClientConfig } from "@aws-sdk/client-s3";
+import { Upload } from "@aws-sdk/lib-storage";
 
 export default class UploaderService {
     private static _s3Client;

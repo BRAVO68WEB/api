@@ -4,7 +4,7 @@ const config = process.env;
 
 export default class Github {
     public getGithubUser = async () => {
-        const { data } = await axios.get(`https://api.github.com/user`, {
+        const { data } = await axios.get("https://api.github.com/user", {
             headers: {
                 Authorization: `token ${config.GH_TOKEN}`,
             },

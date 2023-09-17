@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+
 import GitlabController from "../../controllers/gitlab.controller";
 
 const router = new Hono();

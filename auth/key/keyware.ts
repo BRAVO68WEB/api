@@ -1,6 +1,7 @@
 import { Context, Next } from "hono";
-import { APIKey } from "./apikey";
+
 import ServiceAccount from "../server/service";
+import { APIKey } from "./apikey";
 
 export const serviceAccount = new ServiceAccount();
 
@@ -26,9 +27,9 @@ export const keyware = async (ctx: Context, next: Next) => {
 
         const { attributes } = user;
         if (attributes) {
-            Object.keys(attributes).forEach(key => {
+            for (const key of Object.keys(attributes)) {
                 user[key] = attributes[key][0];
-            });
+            }
         }
 
         ctx.set("user", {
@@ -37,7 +38,7 @@ export const keyware = async (ctx: Context, next: Next) => {
         });
 
         await next();
-    } catch (err) {
+    } catch {
         return ctx.json({
             message: "You're not authorized to access this resource",
         });

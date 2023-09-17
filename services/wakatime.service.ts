@@ -17,7 +17,7 @@ export default class WakatimeService {
     };
 
     public getWakatimeCodeStatsLast7Days = async () => {
-        let { data } = await axiosInstance.get(
+        const { data } = await axiosInstance.get(
             "https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=" +
                 process.env.WAKATIME_API_KEY,
         );
@@ -30,7 +30,7 @@ export default class WakatimeService {
     };
 
     public getWakatimeLanguageUsageInLast7Days = async () => {
-        let { data } = await axiosInstance.get(
+        const { data } = await axiosInstance.get(
             "https://wakatime.com/api/v1/users/current/stats/last_7_days?api_key=" +
                 process.env.WAKATIME_API_KEY,
         );

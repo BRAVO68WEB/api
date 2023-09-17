@@ -1,4 +1,5 @@
 import { Context } from "hono";
+
 import { makeResponse } from "../libs";
 import PingService from "../services/ping.service";
 
@@ -8,8 +9,8 @@ export default class PingController extends PingService {
             const { host } = ctx.req.query();
             const data = await this.pingHost(host);
             return ctx.json(makeResponse(data));
-        } catch (err: any) {
-            return ctx.json(makeResponse(err.message, {}, "Failed", true));
+        } catch {
+            return ctx.json(makeResponse("Error occured while pinging", {}, "Failed", true));
         }
     };
 
@@ -18,8 +19,8 @@ export default class PingController extends PingService {
             const { hosts } = ctx.req.query();
             const data = await this.pingHostsParallel(hosts.split(","));
             return ctx.json(makeResponse(data));
-        } catch (err: any) {
-            return ctx.json(makeResponse(err.message, {}, "Failed", true));
+        } catch {
+            return ctx.json(makeResponse("Error occured while pinging", {}, "Failed", true));
         }
     };
 
@@ -28,8 +29,8 @@ export default class PingController extends PingService {
             const { hosts } = ctx.req.query();
             const data = await this.pingHosts(hosts.split(","));
             return ctx.json(makeResponse(data));
-        } catch (err: any) {
-            return ctx.json(makeResponse(err.message, {}, "Failed", true));
+        } catch {
+            return ctx.json(makeResponse("Error occured while pinging", {}, "Failed", true));
         }
     };
 
@@ -40,7 +41,7 @@ export default class PingController extends PingService {
     //             return ctx.json(makeResponse('localhost', {}, 'Failed', true))
     //         const data = await this.pingHost(req.ip)
     //         return ctx.json(makeResponse(data))
-    //     } catch (err: any) {
+    //     } catch (err) {
     //         return ctx.json(makeResponse(err.message, {}, 'Failed', true))
     //     }
     // }

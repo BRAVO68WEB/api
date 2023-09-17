@@ -1,6 +1,7 @@
 import { Context, Hono } from "hono";
-import { makeResponse } from "../libs";
+
 import SpotifyController from "../controllers/spotify.controller";
+import { makeResponse } from "../libs";
 
 const router = new Hono();
 const { login, loginCallback } = new SpotifyController();
@@ -15,8 +16,8 @@ router.get("/spotify/callback", loginCallback);
 router.all("/err", (ctx: Context) => {
     try {
         throw new Error("This is an error");
-    } catch (err) {
-        return ctx.json(err);
+    } catch (error) {
+        return ctx.json(error);
     }
 });
 

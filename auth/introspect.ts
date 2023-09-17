@@ -1,5 +1,6 @@
-import { authClient } from "../helpers/auth_client";
 import { Context } from "hono";
+
+import { authClient } from "../helpers/auth_client";
 
 export const introspect = async (ctx: Context) => {
     try {
@@ -16,7 +17,7 @@ export const introspect = async (ctx: Context) => {
         }
 
         return decoded;
-    } catch (err) {
+    } catch {
         return ctx.json({
             message: "Invalid Token",
         });

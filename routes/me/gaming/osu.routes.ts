@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+
 import OsuController from "../../../controllers/osu.controller";
 
 const router = new Hono();

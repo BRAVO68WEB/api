@@ -1,25 +1,27 @@
 import crypto from "node:crypto";
-import { client } from "../../helpers";
+
 import { gql } from "graphql-request";
+
+import { Mutation_Root, Query_Root } from "../../graphql/types";
+import { client } from "../../helpers";
 
 export class APIKey {
     public generateKey(): string {
-        const key = crypto.randomBytes(32).toString("hex");
-        return key;
+        return crypto.randomBytes(32).toString("hex");
     }
 
     public async fetchKeyS(userSub: string): Promise<any> {
         const initQuery = gql`
-            query findUser($userSub: uuid!) {
-                apikey_by_pk(user_id: $userSub) {
-                    api_key
-                    user_id
-                    created_at
-                    updated_at
-                }
-            }
+          query findUser($userSub: uuid!) {
+              apikey_by_pk(user_id: $userSub) {
+                  api_key
+                  user_id
+                  created_at
+                  updated_at
+              }
+          }
         `;
-        const data: any = await client.request(initQuery, { userSub });
+        const data: Query_Root  = await client.request(initQuery, { userSub });
         return data.apikey_by_pk;
     }
 
@@ -28,74 +30,70 @@ export class APIKey {
         const key = this.generateKey();
         if (serchKey) {
             const updateQuery = gql`
-                mutation updateApiKey($userSub: uuid!, $key: String!) {
-                    update_apikey_by_pk(
-                        pk_columns: { user_id: $userSub }
-                        _set: { api_key: $key }
-                    ) {
-                        api_key
-                        user_id
-                        created_at
-                        updated_at
-                    }
-                }
+              mutation updateApiKey($userSub: uuid!, $key: String!) {
+                  update_apikey_by_pk(
+                      pk_columns: { user_id: $userSub }
+                      _set: { api_key: $key }
+                  ) {
+                      api_key
+                      user_id
+                      created_at
+                      updated_at
+                  }
+              }
             `;
-            const data: any = await client.request(updateQuery, {
+            const data: Mutation_Root = await client.request(updateQuery, {
                 userSub,
                 key,
             });
             return data.update_apikey_by_pk;
         }
         const createQuery = gql`
-            mutation insertApiKey($userSub: uuid!, $key: String!) {
-                insert_apikey_one(object: { user_id: $userSub, api_key: $key }) {
-                    api_key
-                    user_id
-                    created_at
-                    updated_at
-                }
-            }
+          mutation insertApiKey($userSub: uuid!, $key: String!) {
+              insert_apikey_one(object: { user_id: $userSub, api_key: $key }) {
+                  api_key
+                  user_id
+                  created_at
+                  updated_at
+              }
+          }
         `;
-        const data: any = await client.request(createQuery, { userSub, key });
+        const data: Mutation_Root = await client.request(createQuery, { userSub, key });
         return data.insert_apikey_one;
     }
 
     public async deleteKeyS(userSub: string): Promise<any> {
         const deleteQuery = gql`
-            mutation deleteApiKey($userSub: uuid!) {
-                delete_apikey_by_pk(user_id: $userSub) {
-                    user_id
-                    created_at
-                    updated_at
-                }
-            }
+          mutation deleteApiKey($userSub: uuid!) {
+              delete_apikey_by_pk(user_id: $userSub) {
+                  user_id
+                  created_at
+                  updated_at
+              }
+          }
         `;
-        const data: any = await client.request(deleteQuery, { userSub });
+        const data: Mutation_Root = await client.request(deleteQuery, { userSub });
         return data.delete_apikey_by_pk;
     }
 
     public async validateKeyS(key: string): Promise<any> {
         const validateQuery = gql`
-            query validateKey($key: String!) {
-                apikey(where: { api_key: { _eq: $key } }) {
-                    created_at
-                    updated_at
-                    user_id
-                }
-            }
+          query validateKey($key: String!) {
+              apikey(where: { api_key: { _eq: $key } }) {
+                  created_at
+                  updated_at
+                  user_id
+              }
+          }
         `;
 
-        const data: any = await client.request(validateQuery, { key });
+        const data: Query_Root = await client.request(validateQuery, { key });
 
-        if (data.apikey.length === 0) {
-            return {
+        return data.apikey.length === 0 ? {
                 isValid: false,
-            };
-        } else {
-            return {
+            } : {
                 isValid: true,
                 userSub: data.apikey[0].user_id,
             };
-        }
     }
 }

@@ -1,4 +1,4 @@
-import UploaderService from "../data/uploader.service";
+import UploaderService from "../data/uploader_client";
 
 const uploaderService = new UploaderService(process.env.R2_BUCKET_NAME);
 

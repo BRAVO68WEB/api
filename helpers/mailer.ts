@@ -12,8 +12,8 @@ const transporter = nodemailer.createTransport(mailConfig);
 const sendMailWrapper = async (mail: Mail.Options): Promise<void> => {
     try {
         await transporter.sendMail(mail);
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        console.log(error);
     }
 };
 
