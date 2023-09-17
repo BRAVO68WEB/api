@@ -1,13 +1,13 @@
-import { Router } from 'express'
-import OsuController from '../../../controllers/osu.controller'
+import { Hono } from "hono";
+import OsuController from "../../../controllers/osu.controller";
 
-const router: Router = Router()
-const { fetchBestScores, fetchFavBeatmaps, fetchRecentScores, fetchUser } =
-    new OsuController()
+const router = new Hono();
 
-router.get('/user', fetchUser)
-router.get('/best', fetchBestScores)
-router.get('/recent', fetchRecentScores)
-router.get('/fav', fetchFavBeatmaps)
+const { fetchBestScores, fetchFavBeatmaps, fetchRecentScores, fetchUser } = new OsuController();
 
-export default router
+router.get("/user", fetchUser);
+router.get("/best", fetchBestScores);
+router.get("/recent", fetchRecentScores);
+router.get("/fav", fetchFavBeatmaps);
+
+export default router;

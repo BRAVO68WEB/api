@@ -1,9 +1,9 @@
-import { Router } from 'express'
-import HashnodeController from '../../controllers/hashnode.controller'
+import { Hono } from "hono";
+import HashnodeController from "../../controllers/hashnode.controller";
 
-const router: Router = Router()
-const { getProfile } = new HashnodeController()
+const router = new Hono();
+const { getProfile } = new HashnodeController();
 
-router.get('/', getProfile)
+router.get("/", getProfile);
 
-export default router
+export default router;

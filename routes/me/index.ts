@@ -1,5 +1,9 @@
-import { Hono } from 'hono'
+import { Hono } from "hono";
 
-const router = new Hono()
+import discord from './discord.routes';
 
-export default router
+const router = new Hono();
+
+router.route("/discord", discord);
+
+export default router;

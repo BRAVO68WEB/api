@@ -1,25 +1,23 @@
-import { authClient } from '../helpers/auth_client'
-import { Context } from 'hono'
+import { authClient } from "../helpers/auth_client";
+import { Context } from "hono";
 
-export const refresh = async (
-    ctx: Context
-) => {
+export const refresh = async (ctx: Context) => {
     try {
-        const body = await ctx.req.json()
-        const refreshToken = body.refresh_token as string
+        const body = await ctx.req.json();
+        const refreshToken = body.refresh_token as string;
         if (!refreshToken) {
-            throw new Error('No refresh token provided !!')
+            throw new Error("No refresh token provided !!");
         }
-        const tokenData = await authClient.refresh(refreshToken)
+        const tokenData = await authClient.refresh(refreshToken);
 
         if (!tokenData) {
-            throw new Error('No user')
+            throw new Error("No user");
         }
 
-        return tokenData
+        return tokenData;
     } catch (err) {
         return ctx.json({
             message: "Invalid Refresh Token",
-        })
+        });
     }
-}
+};

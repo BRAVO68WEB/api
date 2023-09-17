@@ -1,42 +1,48 @@
-import { Hono } from 'hono'
-import { cors } from 'hono/cors'
-import { logger } from 'hono/logger'
-import { serveStatic } from 'hono/bun'
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { logger } from "hono/logger";
+import { serveStatic } from "hono/bun";
 
-import { hgqlInit } from './helpers'
-import cacheClient from './helpers/cache.factory'
-import routes from './routes'
-import { notFoundHandler } from './libs'
-import pkg from './package.json' assert { type: 'json' }
-import './configs'
-import discordBotConnect from './helpers/discord_bot_client'
+import { hgqlInit } from "./helpers";
+import cacheClient from "./helpers/cache.factory";
+import routes from "./routes";
+import { notFoundHandler } from "./libs";
+import pkg from "./package.json" assert { type: "json" };
+import "./configs";
+import discordBotConnect from "./helpers/discord_bot_client";
 
-export const app = new Hono()
+export const app = new Hono();
 
-console.log('🚀', '@b68/api', 'v' + pkg.version)
+console.log("🚀", "@b68/api", "v" + pkg.version);
 
-hgqlInit()
-cacheClient.init()
+hgqlInit();
+cacheClient.init();
 
-discordBotConnect()
+discordBotConnect();
 
-app.use("*", cors({
-    origin: '*',
-    allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
-    credentials: true,
-    maxAge: 86400,
-}))
+app.use(
+    "*",
+    cors({
+        origin: "*",
+        allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
+        credentials: true,
+        maxAge: 86400,
+    }),
+);
 
-app.use("*", logger())
-  
-console.log('☄ ', 'Base Route', '/')
+app.use("*", logger());
 
-app.route('/', routes)
+console.log("☄ ", "Base Route", "/");
 
-app.use("*", serveStatic({
-    root: 'public',
-}))
+app.route("/", routes);
 
-app.use("*", notFoundHandler)
+app.use(
+    "*",
+    serveStatic({
+        root: "public",
+    }),
+);
 
-export default app
+app.use("*", notFoundHandler);
+
+export default app;

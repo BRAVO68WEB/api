@@ -1,37 +1,37 @@
-import { Context } from 'hono'
-import { makeResponse } from '../libs'
-import PingService from '../services/ping.service'
+import { Context } from "hono";
+import { makeResponse } from "../libs";
+import PingService from "../services/ping.service";
 
 export default class PingController extends PingService {
     public ping = async (ctx: Context) => {
         try {
-            const { host } = ctx.req.query()
-            const data = await this.pingHost(host)
-            return ctx.json(makeResponse(data))
+            const { host } = ctx.req.query();
+            const data = await this.pingHost(host);
+            return ctx.json(makeResponse(data));
         } catch (err: any) {
-            return ctx.json(makeResponse(err.message, {}, 'Failed', true))
+            return ctx.json(makeResponse(err.message, {}, "Failed", true));
         }
-    }
+    };
 
     public pingParallel = async (ctx: Context) => {
         try {
-            const { hosts } = ctx.req.query()
-            const data = await this.pingHostsParallel(hosts.split(','))
-            return ctx.json(makeResponse(data))
+            const { hosts } = ctx.req.query();
+            const data = await this.pingHostsParallel(hosts.split(","));
+            return ctx.json(makeResponse(data));
         } catch (err: any) {
-            return ctx.json(makeResponse(err.message, {}, 'Failed', true))
+            return ctx.json(makeResponse(err.message, {}, "Failed", true));
         }
-    }
+    };
 
     public pingAll = async (ctx: Context) => {
         try {
-            const { hosts } = ctx.req.query()
-            const data = await this.pingHosts(hosts.split(','))
-            return ctx.json(makeResponse(data))
+            const { hosts } = ctx.req.query();
+            const data = await this.pingHosts(hosts.split(","));
+            return ctx.json(makeResponse(data));
         } catch (err: any) {
-            return ctx.json(makeResponse(err.message, {}, 'Failed', true))
+            return ctx.json(makeResponse(err.message, {}, "Failed", true));
         }
-    }
+    };
 
     // public pingSelf = async (ctx: Context) => {
     //     try {

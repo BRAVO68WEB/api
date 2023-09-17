@@ -1,21 +1,21 @@
 export interface MailConfig {
-    host?: string
-    port?: number
-    secure?: boolean
+    host?: string;
+    port?: number;
+    secure?: boolean;
     auth?: {
-        user: string
-        pass: string
-    }
-    logger?: boolean
+        user: string;
+        pass: string;
+    };
+    logger?: boolean;
 }
 
 type MailerConfigValues = {
-    [k: string]: MailConfig & Partial<ExtraMailerConfig>
-}
+    [k: string]: MailConfig & Partial<ExtraMailerConfig>;
+};
 
 interface ExtraMailerConfig {
-    from_email: string
-    from_name: string
+    from_email: string;
+    from_name: string;
 }
 
 const ConfigValue: MailerConfigValues = {
@@ -43,6 +43,6 @@ const ConfigValue: MailerConfigValues = {
         from_email: process.env.MAIL_FROM_EMAIL,
         from_name: process.env.MAIL_FROM_NAME,
     },
-}
+};
 
-export default ConfigValue
+export default ConfigValue;

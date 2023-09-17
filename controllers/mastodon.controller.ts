@@ -1,23 +1,23 @@
-import { makeResponse } from '../libs'
-import MastodonService from '../services/mastodon.service'
-import { Request, Response } from 'express'
+import { Context } from "hono";
+import { makeResponse } from "../libs";
+import MastodonService from "../services/mastodon.service";
 
 export default class MastodonController extends MastodonService {
-    public fetchMastodonProfile = async (_req: Request, res: Response) => {
+    public fetchMastodonProfile = async (ctx: Context) => {
         try {
-            const data = await this.getMastodonProfile()
-            return res.send(makeResponse(data))
+            const data = await this.getMastodonProfile();
+            return ctx.json(makeResponse(data));
         } catch (err: any) {
-            res.send(makeResponse(err.message, {}, 'Failed', true))
+            return ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
         }
-    }
+    };
 
-    public fetchMastodonStatuses = async (_req: Request, res: Response) => {
+    public fetchMastodonStatuses = async (ctx: Context) => {
         try {
-            const data = await this.getMastodonStatuses()
-            return res.send(makeResponse(data))
+            const data = await this.getMastodonStatuses();
+            return ctx.json(makeResponse(data));
         } catch (err: any) {
-            res.send(makeResponse(err.message, {}, 'Failed', true))
+            return ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
         }
-    }
+    };
 }
