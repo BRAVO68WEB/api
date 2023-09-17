@@ -1,57 +1,46 @@
-import { NextFunction, Response } from 'express'
-import { ModRequest } from '../../types'
-import { CustomError } from '../../libs/error'
-import { APIKey } from './apikey'
-import ServiceAccount from '../server/service'
+import { Context, Next } from "hono";
 
-export const serviceAccount = new ServiceAccount()
+import ServiceAccount from "../server/service";
+import { APIKey } from "./apikey";
 
-export const keyware = async (
-    req: ModRequest | any,
-    _res: Response,
-    next: NextFunction
-) => {
-    const authClient = new APIKey()
+export const serviceAccount = new ServiceAccount();
+
+export const keyware = async (ctx: Context, next: Next) => {
+    const authClient = new APIKey();
     try {
-        const authHeader = req.headers?.['x-api-key']
+        const authHeader = ctx.req.header("x-api-key") as string;
         if (!authHeader) {
-            throw new Error('No x-api-key header found !!')
+            throw new Error("No x-api-key header found !!");
         }
-        const decoded = await authClient.validateKeyS(authHeader)
+        const decoded = await authClient.validateKeyS(authHeader);
 
         if (!decoded.isValid) {
-            throw new Error('Invalid token')
+            throw new Error("Invalid token");
         }
 
-        const { service_creds } = await serviceAccount.serviceAccount()
-        const user = await serviceAccount.fetchUser(
-            service_creds,
-            decoded.userSub
-        )
+        const { service_creds } = await serviceAccount.serviceAccount();
+        const user = await serviceAccount.fetchUser(service_creds, decoded.userSub);
 
         if (!user) {
-            throw new Error('No user')
+            throw new Error("No user");
         }
 
-        const { attributes } = user
+        const { attributes } = user;
         if (attributes) {
-            Object.keys(attributes).forEach((key) => {
-                user[key] = attributes[key][0]
-            })
+            for (const key of Object.keys(attributes)) {
+                user[key] = attributes[key][0];
+            }
         }
 
-        req.user = {
+        ctx.set("user", {
             userData: user,
             tokenData: decoded,
-        }
+        });
 
-        next()
-    } catch (err: any) {
-        next(
-            new CustomError({
-                message: err.message,
-                statusCode: 401,
-            })
-        )
+        await next();
+    } catch {
+        return ctx.json({
+            message: "You're not authorized to access this resource",
+        });
     }
-}
+};

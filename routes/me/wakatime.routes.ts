@@ -1,13 +1,18 @@
-import { Router } from 'express'
-import WakatimeController from '../../controllers/wakatime.controller'
+import { Hono } from "hono";
 
-const router = Router()
-const { allTimeCode, last7DaysCode, last7DaysLanguages, profile } =
-    new WakatimeController()
+import WakatimeController from "../../controllers/wakatime.controller";
 
-router.get('/', profile)
-router.get('/LanguageUsageInLast7Days', last7DaysLanguages)
-router.get('/codeStatsLast7Days', last7DaysCode)
-router.get('/codeTimeAllTime', allTimeCode)
+const router = new Hono();
+const {
+    allTimeCode,
+    last7DaysCode,
+    last7DaysLanguages,
+    profile,
+} = new WakatimeController();
 
-export default router
+router.get("/", profile);
+router.get("/LanguageUsageInLast7Days", last7DaysLanguages);
+router.get("/codeStatsLast7Days", last7DaysCode);
+router.get("/codeTimeAllTime", allTimeCode);
+
+export default router;

@@ -1,17 +1,16 @@
-import { Router } from 'express'
-import pkg from '../package.json' assert { type: 'json' }
+import { Context,Hono } from "hono";
 
-const router = Router()
+const router = new Hono();
+import pkg from "../package.json" assert { type: "json" };
 
-router.use('/', (req, res) => {
-    return res.status(200).json({
-        status: 'OK',
-        app: 'B68 API',
+router.get("/", (ctx: Context) =>
+    ctx.json({
+        status: "OK",
+        app: "B68 API",
         version: pkg.version,
-        request_ip: req.ip,
         uptime: process.uptime(),
         hrtime: process.hrtime(),
-    })
-})
+    }),
+);
 
-export default router
+export default router;

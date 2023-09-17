@@ -1,7 +1,8 @@
-import { Router } from 'express'
-import GithubController from '../../controllers/github.controller'
+import { Hono } from "hono";
 
-const router = Router()
+import GithubController from "../../controllers/github.controller";
+
+const router = new Hono();
 const {
     fetchSelfGithubUser,
     fetchSelfGithubUserEvents,
@@ -10,14 +11,14 @@ const {
     fetchSelfGithubUserGists,
     fetchSelfGithubUserRepos,
     fetchSelfGithubUserStarred,
-} = new GithubController()
+} = new GithubController();
 
-router.get('/user', fetchSelfGithubUser)
-router.get('/events', fetchSelfGithubUserEvents)
-router.get('/followers', fetchSelfGithubUserFollowers)
-router.get('/following', fetchSelfGithubUserFollowing)
-router.get('/gists', fetchSelfGithubUserGists)
-router.get('/repos', fetchSelfGithubUserRepos)
-router.get('/starred', fetchSelfGithubUserStarred)
+router.get("/user", fetchSelfGithubUser);
+router.get("/events", fetchSelfGithubUserEvents);
+router.get("/followers", fetchSelfGithubUserFollowers);
+router.get("/following", fetchSelfGithubUserFollowing);
+router.get("/gists", fetchSelfGithubUserGists);
+router.get("/repos", fetchSelfGithubUserRepos);
+router.get("/starred", fetchSelfGithubUserStarred);
 
-export default router
+export default router;

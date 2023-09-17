@@ -1,12 +1,13 @@
-import { Router } from 'express'
-import PingController from '../../controllers/ping.controller'
+import { Hono } from "hono";
 
-const router = Router()
-const pingController = new PingController()
+import PingController from "../../controllers/ping.controller";
 
-router.get('/', pingController.ping)
-router.get('/parallel', pingController.pingParallel)
-router.get('/all', pingController.pingAll)
-router.get('/self', pingController.pingSelf)
+const router = new Hono();
+const pingController = new PingController();
 
-export default router
+router.get("/", pingController.ping);
+router.get("/parallel", pingController.pingParallel);
+router.get("/all", pingController.pingAll);
+// router.get('/self', pingController.pingSelf)
+
+export default router;

@@ -1,10 +1,11 @@
-import { Router } from 'express'
-import VSCodeController from '../../controllers/vscode.controller'
+import { Hono } from "hono";
 
-const { fetchList } = new VSCodeController()
+import VSCodeController from "../../controllers/vscode.controller";
 
-const router = Router()
+const { fetchList } = new VSCodeController();
 
-router.get('/', fetchList)
+const router = new Hono();
 
-export default router
+router.get("/", fetchList);
+
+export default router;

@@ -1,31 +1,24 @@
-import { NextFunction, Response } from 'express'
-import { authClient } from '../helpers/auth_client'
-import { ModRequest } from '../types'
-import { CustomError } from '../libs/error'
+import { Context } from "hono";
 
-export const refresh = async (
-    req: ModRequest | any,
-    _res: Response,
-    next: NextFunction
-) => {
+import { authClient } from "../helpers/auth_client";
+
+export const refresh = async (ctx: Context) => {
     try {
-        const refreshToken: string = req.body?.refresh_token
+        const body = await ctx.req.json();
+        const refreshToken = body.refresh_token as string;
         if (!refreshToken) {
-            throw new Error('No refresh token provided !!')
+            throw new Error("No refresh token provided !!");
         }
-        const tokenData = await authClient.refresh(refreshToken)
+        const tokenData = await authClient.refresh(refreshToken);
 
         if (!tokenData) {
-            throw new Error('No user')
+            throw new Error("No user");
         }
 
-        return tokenData
-    } catch (err) {
-        next(
-            new CustomError({
-                message: 'Invalid refresh token',
-                statusCode: 401,
-            })
-        )
+        return tokenData;
+    } catch {
+        return ctx.json({
+            message: "Invalid Refresh Token",
+        });
     }
-}
+};

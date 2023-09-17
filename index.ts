@@ -1,51 +1,49 @@
-import 'dotenv/config'
-import cors from 'cors'
-import express from 'express'
-import morgan from 'morgan'
-import helmet from 'helmet'
-import RateLimit from 'express-rate-limit'
+import { Hono } from "hono";
+import { serveStatic } from "hono/bun";
+import { cors } from "hono/cors";
+import { logger } from "hono/logger";
 
-import { hgqlInit } from './helpers'
-import cacheClient from './helpers/cache.factory'
-import routes from './routes'
-import { errorHandler, notFoundHandler } from './libs'
-import pkg from './package.json' assert { type: 'json' }
-import './configs'
-import discordBotConnect from './helpers/discord_bot_client'
+import "./configs";
 
-export const app: express.Application = express()
+import { hgqlInit } from "./helpers";
+import cacheClient from "./helpers/cache.factory";
+import discordBotConnect from "./helpers/discord_bot_client";
+import { notFoundHandler } from "./libs";
+import pkg from "./package.json" assert { type: "json" };
+import routes from "./routes";
 
-console.log('🚀', '@b68/api', 'v' + pkg.version)
+export const app = new Hono();
 
-hgqlInit()
-cacheClient.init()
+console.log("🚀", "@b68/api", "v" + pkg.version);
 
-discordBotConnect()
+hgqlInit();
+cacheClient.init();
 
-app.use(cors())
-app.use(helmet())
-app.use(morgan('dev'))
-app.use(express.json())
-app.use(express.urlencoded({ extended: true, limit: '50mb' }))
-app.set('view engine', 'ejs')
-app.set('trust proxy', true)
+discordBotConnect();
 
-const limiter = RateLimit({
-    windowMs: 1*60*1000, // 1 minute
-    max: 60
-});
-  
-// apply rate limiter to all requests
-app.use(limiter);
-  
+app.use(
+    "*",
+    cors({
+        origin: "*",
+        allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
+        credentials: true,
+        maxAge: 86_400,
+    }),
+);
 
-console.log('☄ ', 'Base Route', '/')
+app.use("*", logger());
 
-app.use('/', routes)
+console.log("☄", "Base Route", "/");
 
-app.use(notFoundHandler)
-app.use(errorHandler)
+app.route("/", routes);
 
-app.listen(process.env.PORT, () => {
-    console.log(`\n🌈 Server running on port ${process.env.PORT}`)
-})
+app.use(
+    "*",
+    serveStatic({
+        root: "public",
+    }),
+);
+
+app.use("*", notFoundHandler);
+
+export default app;

@@ -1,41 +1,42 @@
-import OsuService from '../services/osu.service'
-import { Request, Response } from 'express'
-import { makeResponse } from '../libs'
+import { Context } from "hono";
+
+import { makeResponse } from "../libs";
+import OsuService from "../services/osu.service";
 
 export default class OsuController extends OsuService {
-    public fetchUser = async (_req: Request, res: Response) => {
+    public fetchUser = async (ctx: Context) => {
         try {
-            const data = await this.getOsuSelf()
-            res.send(makeResponse(data))
-        } catch (error: any) {
-            res.send(makeResponse(error.message, {}, 'Failed', true))
+            const data = await this.getOsuSelf();
+            return ctx.json(makeResponse(data));
+        } catch {
+            return ctx.json(makeResponse("Error fetching Osu Stats", {}, "Failed", true), 401);
         }
-    }
+    };
 
-    public fetchBestScores = async (_req: Request, res: Response) => {
+    public fetchBestScores = async (ctx: Context) => {
         try {
-            const data = await this.bestScoresSelf()
-            res.send(makeResponse(data))
-        } catch (error: any) {
-            res.send(makeResponse(error.message, {}, 'Failed', true))
+            const data = await this.bestScoresSelf();
+            return ctx.json(makeResponse(data));
+        } catch {
+            return ctx.json(makeResponse("Error fetching Osu Stats", {}, "Failed", true), 401);
         }
-    }
+    };
 
-    public fetchFavBeatmaps = async (_req: Request, res: Response) => {
+    public fetchFavBeatmaps = async (ctx: Context) => {
         try {
-            const data = await this.favouriteBeatmapsSelf()
-            res.send(makeResponse(data))
-        } catch (error: any) {
-            res.send(makeResponse(error.message, {}, 'Failed', true))
+            const data = await this.favouriteBeatmapsSelf();
+            return ctx.json(makeResponse(data));
+        } catch {
+            return ctx.json(makeResponse("Error fetching Osu Stats", {}, "Failed", true), 401);
         }
-    }
+    };
 
-    public fetchRecentScores = async (_req: Request, res: Response) => {
+    public fetchRecentScores = async (ctx: Context) => {
         try {
-            const data = await this.recentScoresSelf()
-            res.send(makeResponse(data))
-        } catch (error: any) {
-            res.send(makeResponse(error.message, {}, 'Failed', true))
+            const data = await this.recentScoresSelf();
+            return ctx.json(makeResponse(data));
+        } catch {
+            return ctx.json(makeResponse("Error fetching Osu Stats", {}, "Failed", true), 401);
         }
-    }
+    };
 }

@@ -1,23 +1,24 @@
-import { Router } from 'express'
-import { makeResponse } from '../libs'
-import SpotifyController from '../controllers/spotify.controller'
+import { Context, Hono } from "hono";
 
-const router = Router()
-const { login, loginCallback } = new SpotifyController()
+import SpotifyController from "../controllers/spotify.controller";
+import { makeResponse } from "../libs";
 
-router.get('/', (_req, res) => {
-    res.send(makeResponse({ message: 'Hello World!' }))
-})
+const router = new Hono();
+const { login, loginCallback } = new SpotifyController();
 
-router.get('/spotify', login)
-router.get('/spotify/callback', loginCallback)
+router.get("/", (ctx: Context) => {
+    return ctx.json(makeResponse({ message: "Hello World!" }));
+});
 
-router.all('/err', async (_req, _res, next) => {
+router.get("/spotify", login);
+router.get("/spotify/callback", loginCallback);
+
+router.all("/err", (ctx: Context) => {
     try {
-        throw new Error('This is an error')
-    } catch (err) {
-        next(err)
+        throw new Error("This is an error");
+    } catch (error) {
+        return ctx.json(error);
     }
-})
+});
 
-export default router
+export default router;

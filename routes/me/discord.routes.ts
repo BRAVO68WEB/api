@@ -1,14 +1,14 @@
-import { Router } from 'express'
-import DiscordController from '../../controllers/discord.controller'
+import { Hono } from "hono";
 
-const router = Router()
-const { getProfile, getBanner, getActivity, getPresence } =
-    new DiscordController()
+import DiscordController from "../../controllers/discord.controller";
 
-router.get('/profile', getActivity)
-router.get('/banner', getBanner)
+const router = new Hono();
+const { getProfile, getBanner, getActivity, getPresence } = new DiscordController();
 
-router.get('/v2/profile', getProfile)
-router.get('/v2/activity', getPresence)
+router.get("/profile", getActivity);
+router.get("/banner", getBanner);
 
-export default router
+router.get("/v2/profile", getProfile);
+router.get("/v2/activity", getPresence);
+
+export default router;

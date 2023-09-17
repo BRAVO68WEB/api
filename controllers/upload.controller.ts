@@ -1,27 +1,26 @@
-import { NextFunction, Response } from 'express'
-import { ModRequest } from '../types'
-import Uploader from '../services/upload.service'
+import { Context } from "hono";
+
+import Uploader from "../services/upload.service";
 
 export default class UploadController extends Uploader {
-    public upload = async (
-        req: ModRequest,
-        res: Response,
-        next: NextFunction
-    ) => {
+    public upload = async (ctx: Context) => {
         try {
-            const { file } = req
-            if (!file) {
-                const error = new Error('Please upload a file')
-                next(error)
+            const { file } = await ctx.req.parseBody();
+            if (!file || typeof file !== "object") {
+                throw new Error("Please upload a file");
             }
-            const data = await this.uploadS(file)
-            res.status(200).json({
+            const data = await this.uploadS(file);
+            return ctx.json({
                 success: true,
-                message: 'File uploaded successfully',
+                message: "File uploaded successfully",
                 data,
-            })
-        } catch (error: any) {
-            next(error)
+            });
+        } catch {
+            return ctx.json({
+                success: false,
+                message: "Error uploading file",
+                data: {},
+            });
         }
-    }
+    };
 }

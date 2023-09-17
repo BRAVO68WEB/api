@@ -1,22 +1,24 @@
-import { makeResponse } from '../libs'
-import TwitterService from '../services/twitter.service'
+import { Context } from "hono";
+
+import { makeResponse } from "../libs";
+import TwitterService from "../services/twitter.service";
 
 export default class TwitterController extends TwitterService {
-    public getTweets = async (_req, res) => {
+    public getTweets = async (ctx: Context) => {
         try {
-            const data = await this.getSelfUserTweets()
-            res.send(data)
-        } catch (err: any) {
-            res.send(makeResponse(err.message, {}, 'Failed', true))
+            const data = await this.getSelfUserTweets();
+            return ctx.json(data);
+        } catch {
+            return ctx.json(makeResponse("Error with Twitter API", {}, "Failed", true), 401);
         }
-    }
+    };
 
-    public getProfile = async (_req, res) => {
+    public getProfile = async (ctx: Context) => {
         try {
-            const data = await this.getSelfUserProfile()
-            res.send(data)
-        } catch (err: any) {
-            res.send(makeResponse(err.message, {}, 'Failed', true))
+            const data = await this.getSelfUserProfile();
+            return ctx.json(data);
+        } catch {
+            return ctx.json(makeResponse("Error with Twitter API", {}, "Failed", true), 401);
         }
-    }
+    };
 }

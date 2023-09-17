@@ -1,10 +1,11 @@
-import { Router } from 'express'
-import TwitterController from '../../controllers/twitter.controller'
+import { Hono } from "hono";
 
-const router = Router()
-const { getProfile, getTweets } = new TwitterController()
+import TwitterController from "../../controllers/twitter.controller";
 
-router.get('/profile', getProfile)
-router.get('/tweets', getTweets)
+const router = new Hono();
+const { getProfile, getTweets } = new TwitterController();
 
-export default router
+router.get("/profile", getProfile);
+router.get("/tweets", getTweets);
+
+export default router;

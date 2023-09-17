@@ -1,10 +1,11 @@
-import { Router } from 'express'
-import IPController from '../../controllers/ipinfo.controller'
+import { Hono } from "hono";
 
-const router = Router()
-const ipController = new IPController()
+import IPController from "../../controllers/ipinfo.controller";
 
-router.get('/current', ipController.fetchCurrentIPInfo)
-router.get('/:ip', ipController.fetchIPInfo)
+const router = new Hono();
+const ipController = new IPController();
 
-export default router
+// router.get('/current', ipController.fetchCurrentIPInfo)
+router.get("/:ip", ipController.fetchIPInfo);
+
+export default router;

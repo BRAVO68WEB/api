@@ -1,9 +1,10 @@
-import VSCodeService from '../services/vscode.service'
-import { Request, Response } from 'express'
+import { Context } from "hono";
+
+import VSCodeService from "../services/vscode.service";
 
 export default class VSCodeController extends VSCodeService {
-    public fetchList = async (_req: Request, res: Response) => {
-        const data = this.list()
-        return res.send(data)
-    }
+    public fetchList = async (ctx: Context) => {
+        const data = this.list();
+        return ctx.json(data);
+    };
 }

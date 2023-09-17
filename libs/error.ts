@@ -1,11 +1,11 @@
 export class CustomError extends Error {
-    public statusCode: number
-    public data: any
+    public statusCode: number;
+    public data: any;
 
     constructor(args: { message?: string; statusCode?: number; data?: any }) {
-        super(args.message)
-        this.statusCode = args.statusCode || 500
-        this.data = args.data
+        super(args.message);
+        this.statusCode = args.statusCode || 500;
+        this.data = args.data;
     }
 
     override toString() {
@@ -13,12 +13,12 @@ export class CustomError extends Error {
             message: this.message,
             statusCode: this.statusCode,
             data: this.data,
-        }
+        };
     }
 }
 
 export class NotFoundError extends CustomError {
     constructor() {
-        super({ message: 'NOT_FOUND', statusCode: 404 })
+        super({ message: "NOT_FOUND", statusCode: 404 });
     }
 }

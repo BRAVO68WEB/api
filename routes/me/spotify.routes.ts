@@ -1,9 +1,10 @@
-import { Router } from 'express'
-import SpotifyController from '../../controllers/spotify.controller'
+import { Hono } from "hono";
 
-const router = Router()
-const { fetchSpotifyTopSongs } = new SpotifyController()
+import SpotifyController from "../../controllers/spotify.controller";
 
-router.get('/top', fetchSpotifyTopSongs)
+const router = new Hono();
+const { fetchSpotifyTopSongs } = new SpotifyController();
 
-export default router
+router.get("/top", fetchSpotifyTopSongs);
+
+export default router;

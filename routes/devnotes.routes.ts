@@ -1,13 +1,15 @@
-import { Router } from 'express';
-import DevnotesController from '../controllers/devnotes.controller';
-const router = Router()
+import { Hono } from "hono";
 
-const devnotesController = new DevnotesController()
+import DevnotesController from "../controllers/devnotes.controller";
 
-router.get('/', devnotesController.getAll)
-router.get('/:id', devnotesController.get)
-router.post('/', devnotesController.create)
-router.put('/:id', devnotesController.update)
-router.delete("/:id", devnotesController.delete)
+const router = new Hono();
 
-export default router
+const devnotesController = new DevnotesController();
+
+router.get("/", devnotesController.getAll);
+router.get("/:id", devnotesController.get);
+router.post("/", devnotesController.create);
+router.put("/:id", devnotesController.update);
+router.delete("/:id", devnotesController.delete);
+
+export default router;

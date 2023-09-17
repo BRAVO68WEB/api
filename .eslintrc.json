@@ -1,0 +1,8 @@
+{
+    "extends": "@bravo68web/eslint-config/backend",
+    "rules": {
+        "sonarjs/cognitive-complexity": "warn",
+        "unicorn/filename-case": "off",
+        "unicorn/no-array-reduce": "off"
+    }
+}

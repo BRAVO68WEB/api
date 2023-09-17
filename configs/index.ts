@@ -1,10 +1,10 @@
-import { z } from 'zod';
+import { z } from "zod";
 declare global {
-	// eslint-disable-next-line @typescript-eslint/no-namespace
-	namespace NodeJS {
-		// eslint-disable-next-line
-		interface ProcessEnv extends z.infer<typeof ZodEnvironmentVariables> {}
-	}
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace NodeJS {
+        // eslint-disable-next-line @typescript-eslint/no-empty-interface
+        interface ProcessEnv extends z.infer<typeof ZodEnvironmentVariables> {}
+    }
 }
 
 const ZodEnvironmentVariables = z.object({
@@ -55,8 +55,15 @@ const ZodEnvironmentVariables = z.object({
     DISCORD_WEBHOOK_URL: z.string(),
     DISCORD_SELF_ID: z.string(),
     GITLAB_PAT: z.string(),
+    MAIL_HOST: z.string(),
+    MAIL_PORT: z.string(),
+    MAIL_USER: z.string(),
+    MAIL_PASS: z.string(),
+    MAIL_LOGGER: z.string(),
+    MAIL_FROM_EMAIL: z.string(),
+    MAIL_FROM_NAME: z.string()
 });
 
 ZodEnvironmentVariables.parse(process.env);
 
-console.log('✅ Environment variables verified!');
+console.log("✅ Environment variables verified!");

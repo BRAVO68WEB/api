@@ -1,6 +1,7 @@
-import fs from 'fs'
-import mmdb, { CityResponse } from 'mmdb-lib'
+import fs from "node:fs";
 
-const db = fs.readFileSync('GeoLite2-City.mmdb')
+import mmdb, { CityResponse } from "mmdb-lib";
 
-export default new mmdb.Reader<CityResponse>(db)
+const db = fs.readFileSync("GeoLite2-City.mmdb");
+
+export default new mmdb.Reader<CityResponse>(db);

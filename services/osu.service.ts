@@ -1,31 +1,27 @@
-import { v2, auth } from 'osu-api-extended'
+import { auth,v2 } from "osu-api-extended";
 
-const config = process.env
+const config = process.env;
 
 export default class Osu {
     constructor() {
-        auth.login_lazer(config.OSU_USERNAME!, config.OSU_PASSWORD!)
+        auth.login_lazer(config.OSU_USERNAME, config.OSU_PASSWORD);
     }
 
     public async getOsuSelf() {
-        const data = await v2.user.me.details('osu')
-        return data
+        return await v2.user.me.details("osu");
     }
 
     public async bestScoresSelf() {
-        const data = await v2.user.scores.category(15227110, 'best', {})
-        return data
+        return await v2.user.scores.category(15_227_110, "best", {});
     }
 
     public async recentScoresSelf() {
-        const data = await v2.user.scores.category(15227110, 'recent', {})
-        return data
+        return await v2.user.scores.category(15_227_110, "recent", {});
     }
 
     public async favouriteBeatmapsSelf() {
-        const data = await v2.user.beatmaps.most_played(15227110, {
+        return await v2.user.beatmaps.most_played(15_227_110, {
             limit: 10,
-        })
-        return data
+        });
     }
 }

@@ -1,23 +1,9 @@
-import { UploadFactory } from '../../helpers/upload.factory'
-import { Router } from 'express'
-import UploadController from '../../controllers/upload.controller'
+import { Hono } from "hono";
 
-const router = Router()
-const uploadController = new UploadController()
-const uploaderFactory = new UploadFactory()
+import UploadController from "../../controllers/upload.controller";
 
-router.post(
-    '/',
-    uploaderFactory
-        .getUploader({
-            mimeFilters: [
-                'image/jpeg',
-                'image/png',
-                'image/gif',
-                'application/json',
-            ],
-        })
-        .single('file'),
-    uploadController.upload as any
-)
-export default router
+const router = new Hono();
+const uploadController = new UploadController();
+
+router.post("/", uploadController.upload);
+export default router;

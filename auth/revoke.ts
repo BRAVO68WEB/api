@@ -1,27 +1,20 @@
-import { NextFunction, Response } from 'express'
-import { authClient } from '../helpers/auth_client'
-import { ModRequest } from '../types'
-import { CustomError } from '../libs/error'
+import { Context } from "hono";
 
-export const revoke = async (
-    req: ModRequest | any,
-    _res: Response,
-    next: NextFunction
-) => {
+import { authClient } from "../helpers/auth_client";
+
+export const revoke = async (ctx: Context) => {
     try {
-        const authHeader = req.headers?.authorization?.split(' ')
+        let authHeader = ctx.req.header("authorization") as string;
+        authHeader = authHeader.split(" ")[1];
         if (!authHeader) {
-            throw new Error('No authorization header')
+            throw new Error("No authorization header");
         }
-        const token: string = authHeader[1]
-        await authClient.revoke(token)
-        return 'Token revoked! Logged out!'
-    } catch (err) {
-        next(
-            new CustomError({
-                message: 'Invalid token',
-                statusCode: 401,
-            })
-        )
+        const token: string = authHeader;
+        await authClient.revoke(token);
+        return "Token revoked! Logged out!";
+    } catch {
+        return ctx.json({
+            message: "Invalid Token",
+        });
     }
-}
+};

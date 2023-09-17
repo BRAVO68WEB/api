@@ -1,11 +1,12 @@
-import { Router } from 'express'
-import MastodonController from '../../controllers/mastodon.controller'
+import { Hono } from "hono";
 
-const { fetchMastodonProfile, fetchMastodonStatuses } = new MastodonController()
+import MastodonController from "../../controllers/mastodon.controller";
 
-const router = Router()
+const { fetchMastodonProfile, fetchMastodonStatuses } = new MastodonController();
 
-router.get('/profile', fetchMastodonProfile)
-router.get('/statuses', fetchMastodonStatuses)
+const router = new Hono();
 
-export default router
+router.get("/profile", fetchMastodonProfile);
+router.get("/statuses", fetchMastodonStatuses);
+
+export default router;

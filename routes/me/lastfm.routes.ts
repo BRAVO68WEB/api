@@ -1,13 +1,14 @@
-import { Router } from 'express'
-import LastFMController from '../../controllers/lastfm.controller'
+import { Hono } from "hono";
 
-const { fetchTop, fetchCurrent, fetchLoved, fetchUser } = new LastFMController()
+import LastFMController from "../../controllers/lastfm.controller";
 
-const router = Router()
+const { fetchTop, fetchCurrent, fetchLoved, fetchUser } = new LastFMController();
 
-router.get('/', fetchUser)
-router.get('/top', fetchTop)
-router.get('/loved', fetchLoved)
-router.all('/current', fetchCurrent)
+const router = new Hono();
 
-export default router
+router.get("/", fetchUser);
+router.get("/top", fetchTop);
+router.get("/loved", fetchLoved);
+router.all("/current", fetchCurrent);
+
+export default router;
