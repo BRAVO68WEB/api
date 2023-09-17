@@ -29,7 +29,6 @@ const commands = {
         console.log("  cp      Create new provider");
         console.log("  ch      Create new helper of type factory or client");
         console.log("  ct      Create new type");
-        console.log("  cv      Create new view");
         console.log("  ci      Create new interface");
         process.exit(0);
     },
@@ -52,8 +51,8 @@ const commands = {
         );
 
         const serviceTemplate = `export default class ${serviceName} {}`;
-        const controllerTemplate = `import ${serviceName}Service from '../services/${serviceName.toLocaleLowerCase()}.service';\nimport { Request, Response } from 'express'\nimport { makeResponse } from '../libs'\n\nexport default class ${serviceName}Controller extends ${serviceName}Service {}\n`;
-        const routesTemplate = `import { Router } from 'express';\nimport ${serviceName}Controller from '../controllers/${serviceName.toLocaleLowerCase()}.controller';\nconst router: Router = Router()\n\nexport default router\n`;
+        const controllerTemplate = `import ${serviceName}Service from '../services/${serviceName.toLocaleLowerCase()}.service';\nimport { Context } from 'hono'\nimport { makeResponse } from '../libs'\n\nexport default class ${serviceName}Controller extends ${serviceName}Service {}\n`;
+        const routesTemplate = `import { Hono } from 'hono';\nimport ${serviceName}Controller from '../controllers/${serviceName.toLocaleLowerCase()}.controller';\nconst router = new Hono()\n\nexport default router\n`;
 
         if (fs.existsSync(servicePath || controllerPath || routesPath)) {
             console.log("Already exists");
@@ -151,33 +150,6 @@ const commands = {
         fs.appendFileSync(typePath, typeTemplate);
 
         console.log("Type/Interface created successfully");
-    },
-    cv: () => {
-        const viewName = args[1];
-        let viewType = args[2];
-
-        viewType = viewType === "--page" ? "pages" : "partials";
-        const isPartial = viewType === "partials";
-
-        const viewPath = path.join(
-            __dirname,
-            "views",
-            viewType,
-            viewName.toLocaleLowerCase() + ".ejs",
-        );
-
-        const viewTemplate = isPartial
-            ? `<div></div>`
-            : `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <%- include('../partials/head'); %>\n</head>\n<body class="container">\n\n<header>\n  <%- include('../partials/header'); %>\n</header>\n\n<main>\n  <div class="jumbotron">\n\n  </div>\n</main>\n\n<footer>\n  <%- include('../partials/footer'); %>\n</footer>\n\n</body>\n</html>`;
-
-        if (fs.existsSync(viewPath)) {
-            console.log("Already exists");
-            process.exit(1);
-        }
-
-        fs.writeFileSync(viewPath, viewTemplate);
-
-        console.log("View created successfully");
     },
     ci: () => {
         console.log("Not implemented yet");
