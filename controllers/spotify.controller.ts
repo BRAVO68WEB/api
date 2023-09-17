@@ -19,7 +19,7 @@ export default class SpotifyController extends SpotifyService {
             const data = await this.getSpotifyTopSongs();
             ctx.json(makeResponse(data));
         } catch (err: any) {
-            ctx.json(makeResponse(err.message, {}, "Failed", true));
+            ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
         }
     };
 }

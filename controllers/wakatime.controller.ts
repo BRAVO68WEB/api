@@ -1,41 +1,41 @@
 import WakatimeService from "../services/wakatime.service";
-import { Request, Response } from "express";
+import { Context } from "hono";
 import { makeResponse } from "../libs";
 
 export default class Wakatime extends WakatimeService {
-    public profile = async (_req: Request, res: Response) => {
+    public profile = async (ctx: Context) => {
         try {
             const data = await this.getWakatimeStats();
-            res.send(makeResponse(data));
+            return ctx.json(makeResponse(data));
         } catch (err: any) {
-            res.send(makeResponse(err.message, {}, "Failed", true));
+            return ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
         }
     };
 
-    public last7DaysLanguages = async (_req: Request, res: Response) => {
+    public last7DaysLanguages = async (ctx: Context) => {
         try {
             const data = await this.getWakatimeLanguageUsageInLast7Days();
-            res.send(makeResponse(data));
+            return ctx.json(makeResponse(data));
         } catch (err: any) {
-            res.send(makeResponse(err.message, {}, "Failed", true));
+            return ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
         }
     };
 
-    public last7DaysCode = async (_req: Request, res: Response) => {
+    public last7DaysCode = async (ctx: Context) => {
         try {
             const data = await this.getWakatimeCodeStatsLast7Days();
-            res.send(makeResponse(data));
+            return ctx.json(makeResponse(data));
         } catch (err: any) {
-            res.send(makeResponse(err.message, {}, "Failed", true));
+            return ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
         }
     };
 
-    public allTimeCode = async (_req: Request, res: Response) => {
+    public allTimeCode = async (ctx: Context) => {
         try {
             const data = await this.getWakatimeCodeStatesAllTime();
-            res.send(makeResponse(data));
+            return ctx.json(makeResponse(data));
         } catch (err: any) {
-            res.send(makeResponse(err.message, {}, "Failed", true));
+            return ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
         }
     };
 }

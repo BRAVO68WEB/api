@@ -1,7 +1,7 @@
-import { Router } from "express";
+import { Hono } from "hono";
 import TwitterController from "../../controllers/twitter.controller";
 
-const router: Router = Router();
+const router = new Hono();
 const { getProfile, getTweets } = new TwitterController();
 
 router.get("/profile", getProfile);

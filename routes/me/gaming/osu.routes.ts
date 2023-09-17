@@ -1,7 +1,8 @@
-import { Router } from "express";
+import { Hono } from "hono";
 import OsuController from "../../../controllers/osu.controller";
 
-const router: Router = Router();
+const router = new Hono();
+
 const { fetchBestScores, fetchFavBeatmaps, fetchRecentScores, fetchUser } = new OsuController();
 
 router.get("/user", fetchUser);

@@ -1,7 +1,7 @@
-import { Router } from "express";
+import { Hono } from "hono";
 import WakatimeController from "../../controllers/wakatime.controller";
 
-const router: Router = Router();
+const router = new Hono();
 const {
     allTimeCode,
     last7DaysCode,

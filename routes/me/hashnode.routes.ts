@@ -1,7 +1,7 @@
-import { Router } from "express";
+import { Hono } from "hono";
 import HashnodeController from "../../controllers/hashnode.controller";
 
-const router: Router = Router();
+const router = new Hono();
 const { getProfile } = new HashnodeController();
 
 router.get("/", getProfile);

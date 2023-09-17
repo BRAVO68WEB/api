@@ -1,14 +1,14 @@
 import HashnodeService from "../services/hashnode.service";
-import { Request, Response } from "express";
+import { Context } from "hono";
 import { makeResponse } from "../libs";
 
 export default class HashnodeController extends HashnodeService {
-    public getProfile = async (_req: Request, res: Response) => {
+    public getProfile = async (ctx: Context) => {
         try {
             const data = await this.getHashnodeProfile();
-            res.send(makeResponse(data));
+            return ctx.json(makeResponse(data));
         } catch (err: any) {
-            res.send(makeResponse(err.message, {}, "Failed", true));
+            return ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
         }
     };
 }

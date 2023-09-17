@@ -1,74 +1,74 @@
 import GithubService from "../services/github.service";
-import { Request, Response } from "express";
+import { Context } from "hono";
 import { makeResponse } from "../libs";
 
 export default class GithubController extends GithubService {
-    public fetchSelfGithubUser = async (_req: Request, res: Response) => {
+    public fetchSelfGithubUser = async (ctx: Context) => {
         try {
             const user = await this.getGithubUser();
-            res.status(200).json(makeResponse(user));
+            return ctx.json(makeResponse(user));
         } catch (error: any) {
-            res.status(400).json(makeResponse(error.message, {}, "Failed", true));
+            return ctx.json(makeResponse(error.message, {}, "Failed", true), 401);
         }
     };
 
-    public fetchSelfGithubUserRepos = async (_req: Request, res: Response) => {
+    public fetchSelfGithubUserRepos = async (ctx: Context) => {
         try {
             const username = "bravo68web";
             const repos = await this.getGithubUserRepos(username);
-            res.status(200).json(makeResponse(repos));
+            return ctx.json(makeResponse(repos));
         } catch (error: any) {
-            res.status(400).json(makeResponse(error.message, {}, "Failed", true));
+            return ctx.json(makeResponse(error.message, {}, "Failed", true), 401);
         }
     };
 
-    public fetchSelfGithubUserGists = async (_req: Request, res: Response) => {
+    public fetchSelfGithubUserGists = async (ctx: Context) => {
         try {
             const username = "bravo68web";
             const gists = await this.getGithubUserGists(username);
-            res.status(200).json(makeResponse(gists));
+            return ctx.json(makeResponse(gists));
         } catch (error: any) {
-            res.status(400).json(makeResponse(error.message, {}, "Failed", true));
+            return ctx.json(makeResponse(error.message, {}, "Failed", true), 401);
         }
     };
 
-    public fetchSelfGithubUserFollowers = async (_req: Request, res: Response) => {
+    public fetchSelfGithubUserFollowers = async (ctx: Context) => {
         try {
             const username = "bravo68web";
             const followers = await this.getGithubUserFollowers(username);
-            res.status(200).json(makeResponse(followers));
+            return ctx.json(makeResponse(followers));
         } catch (error: any) {
-            res.status(400).json(makeResponse(error.message, {}, "Failed", true));
+            return ctx.json(makeResponse(error.message, {}, "Failed", true), 401);
         }
     };
 
-    public fetchSelfGithubUserFollowing = async (_req: Request, res: Response) => {
+    public fetchSelfGithubUserFollowing = async (ctx: Context) => {
         try {
             const username = "bravo68web";
             const following = await this.getGithubUserFollowing(username);
-            res.status(200).json(makeResponse(following));
+            return ctx.json(makeResponse(following));
         } catch (error: any) {
-            res.status(400).json(makeResponse(error.message, {}, "Failed", true));
+            return ctx.json(makeResponse(error.message, {}, "Failed", true), 401);
         }
     };
 
-    public fetchSelfGithubUserStarred = async (_req: Request, res: Response) => {
+    public fetchSelfGithubUserStarred = async (ctx: Context) => {
         try {
             const username = "bravo68web";
             const starred = await this.getGithubUserStarred(username);
-            res.status(200).json(makeResponse(starred));
+            return ctx.json(makeResponse(starred));
         } catch (error: any) {
-            res.status(400).json(makeResponse(error.message, {}, "Failed", true));
+            return ctx.json(makeResponse(error.message, {}, "Failed", true), 401);
         }
     };
 
-    public fetchSelfGithubUserEvents = async (_req: Request, res: Response) => {
+    public fetchSelfGithubUserEvents = async (ctx: Context) => {
         try {
             const username = "bravo68web";
             const events = await this.getGithubUserEvents(username);
-            res.status(200).json(makeResponse(events));
+            return ctx.json(makeResponse(events));
         } catch (error: any) {
-            res.status(400).json(makeResponse(error.message, {}, "Failed", true));
+            return ctx.json(makeResponse(error.message, {}, "Failed", true), 401);
         }
     };
 }

@@ -1,7 +1,7 @@
-import { Router } from "express";
+import { Hono } from "hono";
 import GithubController from "../../controllers/github.controller";
 
-const router: Router = Router();
+const router = new Hono();
 const {
     fetchSelfGithubUser,
     fetchSelfGithubUserEvents,
