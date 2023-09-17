@@ -1,5 +1,5 @@
-import { Hono } from 'hono'
+import { Hono } from "hono";
 
-const router = new Hono()
+const router = new Hono();
 
-export default router
+export default router;

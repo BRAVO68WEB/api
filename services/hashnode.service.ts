@@ -1,4 +1,4 @@
-import axiosInstance from '../helpers/axios_client'
+import axiosInstance from "../helpers/axios_client";
 
 export default class HashnodeService {
     public getHashnodeProfile = async () => {
@@ -58,20 +58,20 @@ export default class HashnodeService {
               isPro
             }
           }
-        `
+        `;
 
         const { data } = await axiosInstance.post(
-            'https://gql.hashnode.com',
+            "https://gql.hashnode.com",
             {
                 query,
             },
             {
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                     Authorization: `${process.env.HASHNODE_API_KEY}`,
                 },
-            }
-        )
-        return data.data.user
-    }
+            },
+        );
+        return data.data.user;
+    };
 }

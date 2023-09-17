@@ -1,10 +1,10 @@
-import { Router } from 'express'
-import VSCodeController from '../../controllers/vscode.controller'
+import { Router } from "express";
+import VSCodeController from "../../controllers/vscode.controller";
 
-const { fetchList } = new VSCodeController()
+const { fetchList } = new VSCodeController();
 
-const router: Router = Router()
+const router: Router = Router();
 
-router.get('/', fetchList)
+router.get("/", fetchList);
 
-export default router
+export default router;

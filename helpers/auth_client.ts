@@ -1,4 +1,4 @@
-import KEYCLOAK_ISSUER from "../configs/keycloak"
+import KEYCLOAK_ISSUER from "../configs/keycloak";
 
 const authClient = new KEYCLOAK_ISSUER.Client({
     client_id: process.env.KEYCLOAK_CLIENT_ID,
@@ -15,19 +15,19 @@ const authClient = new KEYCLOAK_ISSUER.Client({
     // redirect_uri: process.env.KEYCLOAK_REDIRECT_URI,
     client_secret: process.env.KEYCLOAK_CLIENT_SECRET,
     // default_max_age: 3600000,
-    "realm": "master",
+    realm: "master",
     "auth-server-url": "https://auth.b68.dev/",
     "ssl-required": "external",
-    "resource": "b68-api",
+    resource: "b68-api",
     "verify-token-audience": true,
-    "credentials": {
-        "secret": "vHUwpMA5Ccqea8JY7xLCDtatEump9yuD"
+    credentials: {
+        secret: "vHUwpMA5Ccqea8JY7xLCDtatEump9yuD",
     },
     "confidential-port": 0,
     "policy-enforcer": {
-        "credentials": {}
+        credentials: {},
     },
-    token_endpoint_auth_method: 'client_secret_jwt'
-})
+    token_endpoint_auth_method: "client_secret_jwt",
+});
 
-export { authClient }
+export { authClient };

@@ -1,13 +1,12 @@
-import { Router } from 'express'
-import OsuController from '../../../controllers/osu.controller'
+import { Router } from "express";
+import OsuController from "../../../controllers/osu.controller";
 
-const router: Router = Router()
-const { fetchBestScores, fetchFavBeatmaps, fetchRecentScores, fetchUser } =
-    new OsuController()
+const router: Router = Router();
+const { fetchBestScores, fetchFavBeatmaps, fetchRecentScores, fetchUser } = new OsuController();
 
-router.get('/user', fetchUser)
-router.get('/best', fetchBestScores)
-router.get('/recent', fetchRecentScores)
-router.get('/fav', fetchFavBeatmaps)
+router.get("/user", fetchUser);
+router.get("/best", fetchBestScores);
+router.get("/recent", fetchRecentScores);
+router.get("/fav", fetchFavBeatmaps);
 
-export default router
+export default router;
