@@ -1,25 +1,25 @@
 import UploaderService from '../data/uploader.service'
 
-const uploaderService = new UploaderService(process.env.S3_BUCKET_NAME, 'r2')
+const uploaderService = new UploaderService(process.env.R2_BUCKET_NAME)
 
 export default class Uploader {
     public uploadS = async (file: any) => {
+        const newName = Date.now() + '-' + file.name
         await uploaderService.uploadFile(
-            process.env.S3_BUCKET_FOLDER,
-            file.newName,
-            file.buffer,
-            file.mimetype,
+            process.env.R2_BUCKET_FOLDER,
+            newName,
+            file,
             'public-read'
         )
         return {
             url:
-                process.env.S3_BUCKET_URL +
+                process.env.R2_BUCKET_URL +
                 '/' +
-                process.env.S3_BUCKET_NAME +
+                process.env.R2_BUCKET_NAME +
                 '/' +
-                process.env.S3_BUCKET_FOLDER +
+                process.env.R2_BUCKET_FOLDER +
                 '/' +
-                file.newName,
+                newName,
         }
     }
 }
