@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+
 import TwitterController from "../../controllers/twitter.controller";
 
 const router = new Hono();

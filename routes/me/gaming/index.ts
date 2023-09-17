@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 
-import osu from './osu.routes';
-import rl from './rl.routes';
-import csgo from './csgo.routes';
+import csgo from "./csgo.routes";
+import osu from "./osu.routes";
+import rl from "./rl.routes";
 
 const router = new Hono();
 

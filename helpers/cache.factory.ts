@@ -1,5 +1,5 @@
-import * as redis from "redis";
 import NodeCache from "node-cache";
+import * as redis from "redis";
 
 type CacheEnvironment = "development" | "production";
 export default class CacheClient {
@@ -50,10 +50,6 @@ export default class CacheClient {
 
     // expose single function to handle the client read irrespective of the underlying connections
     static async get(key: string): Promise<string | null> {
-        if (this._clientMode === "production") {
-            return await this._redisClient.get(key);
-        } else {
-            return (this._nodeClient.get(key) as string) || null;
-        }
+        return this._clientMode === "production" ? (await this._redisClient.get(key)) : (this._nodeClient.get(key) as string) || null;
     }
 }

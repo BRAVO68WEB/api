@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+
 import PingController from "../../controllers/ping.controller";
 
 const router = new Hono();

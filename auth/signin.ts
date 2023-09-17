@@ -1,5 +1,6 @@
-import { authClient } from "../helpers/auth_client";
 import { generators } from "openid-client";
+
+import { authClient } from "../helpers/auth_client";
 
 const code_verifier = generators.codeVerifier();
 const code_challenge = generators.codeChallenge(code_verifier);

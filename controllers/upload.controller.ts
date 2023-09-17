@@ -1,4 +1,5 @@
 import { Context } from "hono";
+
 import Uploader from "../services/upload.service";
 
 export default class UploadController extends Uploader {
@@ -6,8 +7,7 @@ export default class UploadController extends Uploader {
         try {
             const { file } = await ctx.req.parseBody();
             if (!file || typeof file !== "object") {
-                const error = new Error("Please upload a file");
-                throw error;
+                throw new Error("Please upload a file");
             }
             const data = await this.uploadS(file);
             return ctx.json({
@@ -15,10 +15,10 @@ export default class UploadController extends Uploader {
                 message: "File uploaded successfully",
                 data,
             });
-        } catch (error: any) {
+        } catch {
             return ctx.json({
                 success: false,
-                message: error.message,
+                message: "Error uploading file",
                 data: {},
             });
         }

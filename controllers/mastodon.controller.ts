@@ -1,4 +1,5 @@
 import { Context } from "hono";
+
 import { makeResponse } from "../libs";
 import MastodonService from "../services/mastodon.service";
 
@@ -7,8 +8,8 @@ export default class MastodonController extends MastodonService {
         try {
             const data = await this.getMastodonProfile();
             return ctx.json(makeResponse(data));
-        } catch (err: any) {
-            return ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
+        } catch {
+            return ctx.json(makeResponse("Error fetching Mastodon Profile", {}, "Failed", true), 401);
         }
     };
 
@@ -16,8 +17,8 @@ export default class MastodonController extends MastodonService {
         try {
             const data = await this.getMastodonStatuses();
             return ctx.json(makeResponse(data));
-        } catch (err: any) {
-            return ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
+        } catch {
+            return ctx.json(makeResponse("Error fetching Mastodon Toots", {}, "Failed", true), 401);
         }
     };
 }

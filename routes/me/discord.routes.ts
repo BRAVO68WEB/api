@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+
 import DiscordController from "../../controllers/discord.controller";
 
 const router = new Hono();

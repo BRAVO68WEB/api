@@ -18,11 +18,7 @@ export const flattenObject = (obj: any, prefix = "") => {
     let newObj: any = {};
     for (const key in obj) {
         const pfx = prefix ? joinPrefix(prefix, key) : key;
-        if (obj[key] instanceof Object) {
-            newObj = { ...newObj, ...flattenObject(obj[key], pfx) };
-        } else {
-            newObj = { ...newObj, [pfx]: obj[key] };
-        }
+        newObj = obj[key] instanceof Object ? { ...newObj, ...flattenObject(obj[key], pfx) } : { ...newObj, [pfx]: obj[key] };
     }
     return newObj;
 };
@@ -31,7 +27,7 @@ export const cleanObject = (obj: any) => {
     const newObj: any = obj;
     for (const k in obj) {
         if (
-            (!k || !obj[k] || typeof k === "undefined") &&
+            (!k || !obj[k] || k === undefined) &&
             typeof obj[k] !== "boolean" &&
             obj[k] !== 0
         )
@@ -45,7 +41,7 @@ export const cleanObjectKeepNull = (obj: any) => {
     const newObj: any = obj;
     for (const k in obj) {
         if (
-            (!k || !obj[k] || typeof k === "undefined") &&
+            (!k || !obj[k] || k === undefined) &&
             typeof obj[k] !== "boolean" &&
             obj[k] !== 0 &&
             obj[k] !== null
@@ -57,7 +53,7 @@ export const cleanObjectKeepNull = (obj: any) => {
 
 export const paginateRequest = (q: any): PaginationType => {
     const filter_keys = Object.keys(q).filter(c => c.startsWith("filter_"));
-    const filters = filter_keys.length
+    const filters = filter_keys.length > 0
         ? filter_keys
               .map(filter_key => {
                   const filter_subset = filter_key.replace("filter_", "").split(".");
@@ -86,8 +82,8 @@ export const paginateRequest = (q: any): PaginationType => {
               }, {})
         : undefined;
     return {
-        page: parseInt(q.page) || 0,
-        limit: parseInt(q.limit || q.items) || 50,
+        page: Number.parseInt(q.page) || 0,
+        limit: Number.parseInt(q.limit || q.items) || 50,
         sort_by: q.sort_by,
         sort_order: q.sort_order || "asc",
         filters,
@@ -114,7 +110,7 @@ export const subtractHours = (date: Date, hours: number) => {
 export const capitalizeEachWord = (str: string) => {
     return str
         .split(" ")
-        .map(word => (!word.length ? "" : word[0].toUpperCase() + word.slice(1).toLowerCase()))
+        .map(word => (word.length === 0 ? "" : word[0].toUpperCase() + word.slice(1).toLowerCase()))
         .join(" ");
 };
 
@@ -138,13 +134,4 @@ export const pick = (object: any, keys: any) => {
 export const getSortColumn = (pg_sort_by?: string, def = "id", options: string[] = []) => {
     pg_sort_by ||= def;
     return options.includes(pg_sort_by) ? pg_sort_by : def;
-};
-
-/**
- * Check whether a string matches the uuid format for postgres or not.
- */
-export const is_uuid = (value: string) => {
-    // storing as a separate regex object for future modifications and code readibility
-    const regex = /^()/;
-    return regex.test(value);
 };

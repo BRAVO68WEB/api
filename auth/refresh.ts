@@ -1,5 +1,6 @@
-import { authClient } from "../helpers/auth_client";
 import { Context } from "hono";
+
+import { authClient } from "../helpers/auth_client";
 
 export const refresh = async (ctx: Context) => {
     try {
@@ -15,7 +16,7 @@ export const refresh = async (ctx: Context) => {
         }
 
         return tokenData;
-    } catch (err) {
+    } catch {
         return ctx.json({
             message: "Invalid Refresh Token",
         });

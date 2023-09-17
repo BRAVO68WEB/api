@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# API_KEY="PIiA7448yJCk23aO"
-# URL="https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=$API_KEY&suffix=tar.gz"
-
 # Get current year
 YEAR=$(date +"%Y")
 

@@ -1,14 +1,15 @@
-import LastfmService from "../services/lastfm.service";
 import { Context } from "hono";
+
 import { makeResponse } from "../libs";
+import LastfmService from "../services/lastfm.service";
 
 export default class LastFMController extends LastfmService {
     public fetchUser = async (ctx: Context) => {
         try {
             const data = await this.user();
             return ctx.json(makeResponse(data));
-        } catch (err: any) {
-            return ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
+        } catch {
+            return ctx.json(makeResponse("Error fetching User", {}, "Failed", true), 401);
         }
     };
 
@@ -16,8 +17,8 @@ export default class LastFMController extends LastfmService {
         try {
             const data = await this.top();
             return ctx.json(makeResponse(data));
-        } catch (err: any) {
-            return ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
+        } catch {
+            return ctx.json(makeResponse("Error fetching Top songs", {}, "Failed", true), 401);
         }
     };
 
@@ -25,13 +26,18 @@ export default class LastFMController extends LastfmService {
         try {
             const data = await this.loved();
             return ctx.json(makeResponse(data));
-        } catch (error: any) {
-            return ctx.json(makeResponse(error.message, {}, "Failed", true), 401);
+        } catch {
+            return ctx.json(makeResponse("Error fetching Loved songs", {}, "Failed", true), 401);
         }
     };
 
     public fetchCurrent = async (ctx: Context) => {
-        const data = await this.current();
-        return ctx.json(data);
+        try {
+            const data = await this.current();
+            return ctx.json(data);
+        }
+        catch {
+            return ctx.json(makeResponse("Error fetching current status", {}, "Failed", true), 401);
+        }
     };
 }

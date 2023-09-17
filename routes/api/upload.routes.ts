@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+
 import UploadController from "../../controllers/upload.controller";
 
 const router = new Hono();

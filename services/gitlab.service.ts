@@ -2,7 +2,7 @@ import axios from "../helpers/axios_client";
 
 export default class GitLab {
     public getGitLabUser = async () => {
-        const { data } = await axios.get(`https://gitlab.com/api/v4/user`, {
+        const { data } = await axios.get("https://gitlab.com/api/v4/user", {
             headers: {
                 "PRIVATE-TOKEN": `${process.env.GITLAB_PAT}`,
             },
@@ -20,7 +20,7 @@ export default class GitLab {
     };
 
     public getGitlabUserSnippets = async () => {
-        const { data } = await axios.get(`https://gitlab.com/api/v4/snippets`, {
+        const { data } = await axios.get("https://gitlab.com/api/v4/snippets", {
             headers: {
                 "PRIVATE-TOKEN": `${process.env.GITLAB_PAT}`,
             },
@@ -59,7 +59,7 @@ export default class GitLab {
     };
 
     public getGitLabUserEvents = async () => {
-        const { data } = await axios.get(`https://gitlab.com/api/v4/events`, {
+        const { data } = await axios.get("https://gitlab.com/api/v4/events", {
             headers: {
                 "PRIVATE-TOKEN": `${process.env.GITLAB_PAT}`,
             },

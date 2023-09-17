@@ -1,4 +1,5 @@
-import fs from "fs";
+import fs from "node:fs";
+
 import mmdb, { CityResponse } from "mmdb-lib";
 
 const db = fs.readFileSync("GeoLite2-City.mmdb");

@@ -1,5 +1,6 @@
-import { authClient } from "../helpers/auth_client";
 import { Context } from "hono";
+
+import { authClient } from "../helpers/auth_client";
 
 export const revoke = async (ctx: Context) => {
     try {
@@ -11,7 +12,7 @@ export const revoke = async (ctx: Context) => {
         const token: string = authHeader;
         await authClient.revoke(token);
         return "Token revoked! Logged out!";
-    } catch (err) {
+    } catch {
         return ctx.json({
             message: "Invalid Token",
         });

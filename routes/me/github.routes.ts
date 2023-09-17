@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+
 import GithubController from "../../controllers/github.controller";
 
 const router = new Hono();

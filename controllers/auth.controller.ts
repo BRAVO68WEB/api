@@ -1,17 +1,18 @@
-import { makeResponse } from "../libs";
 import { Context } from "hono";
+
 import {
+    APIKey,
+    callbackApp,
+    callbackCLI,
     callbackOn,
     introspect,
     refresh,
-    signon,
     revoke,
-    APIKey,
-    signonCLI,
-    callbackCLI,
+    signon,
     signonApp,
-    callbackApp,
+    signonCLI,
 } from "../auth";
+import { makeResponse } from "../libs";
 
 export default class AuthController extends APIKey {
     public signin = (ctx: Context) => {
@@ -34,8 +35,8 @@ export default class AuthController extends APIKey {
             const { session_state, code } = ctx.req.query();
             const response = await callbackOn(session_state, code);
             return ctx.json(makeResponse(response));
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
             return ctx.json(makeResponse("Callback Failed", {}, "Failed", true));
         }
     };
@@ -83,24 +84,23 @@ export default class AuthController extends APIKey {
     };
 
     public validateKeyHeader = async (ctx: Context) => {
-        let api_key;
-        api_key = ctx.req.header("x-api-key");
-        if (!api_key) {
-            return ctx.json(makeResponse("No API Key provided !!", {}, "Failed", true));
-        } else {
+        const api_key = ctx.req.header("x-api-key");
+        if (api_key) {
             const valData = await this.validateKeyS(api_key);
             return ctx.json(makeResponse(valData));
+        } else {
+            return ctx.json(makeResponse("No API Key provided !!", {}, "Failed", true));
         }
     };
 
     public validateKeyBody = async (ctx: Context) => {
         const body = await ctx.req.json();
         const api_key = body.api_key;
-        if (!api_key) {
-            return ctx.json(makeResponse("No API Key provided !!", {}, "Failed", true));
-        } else {
+        if (api_key) {
             const valData = await this.validateKeyS(api_key);
             return ctx.json(makeResponse(valData));
+        } else {
+            return ctx.json(makeResponse("No API Key provided !!", {}, "Failed", true));
         }
     };
 }

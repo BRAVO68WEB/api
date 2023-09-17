@@ -1,6 +1,6 @@
+import { Client,GatewayIntentBits } from "@discordjs/core";
 import { REST } from "@discordjs/rest";
 import { WebSocketManager } from "@discordjs/ws";
-import { GatewayIntentBits, Client } from "@discordjs/core";
 export default class DiscordBotClient {
     public static _client: Client;
     public static _rest: REST;

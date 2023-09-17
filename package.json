@@ -17,7 +17,8 @@
     "schema:fetch": "bash ./bin/fetch-gql-schema.sh",
     "schema:generate": "graphql-codegen --config codegen.yml",
     "start": "node --es-module-specifier-resolution=node --loader ts-node/esm ./build/index.js",
-    "prettier": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,scss,md}\""
+    "prettier": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,scss,md}\"",
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.400.0",

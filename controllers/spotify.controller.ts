@@ -1,6 +1,7 @@
-import SpotifyService from "../services/spotify.service";
 import { Context } from "hono";
+
 import { makeResponse } from "../libs";
+import SpotifyService from "../services/spotify.service";
 
 export default class SpotifyController extends SpotifyService {
     public login = async (ctx: Context) => {
@@ -17,9 +18,9 @@ export default class SpotifyController extends SpotifyService {
     public fetchSpotifyTopSongs = async (ctx: Context) => {
         try {
             const data = await this.getSpotifyTopSongs();
-            ctx.json(makeResponse(data));
-        } catch (err: any) {
-            ctx.json(makeResponse(err.message, {}, "Failed", true), 401);
+            return ctx.json(makeResponse(data));
+        } catch {
+            return ctx.json(makeResponse("Error fetching Spotify Top songs", {}, "Failed", true), 401);
         }
     };
 }

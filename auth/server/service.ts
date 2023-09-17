@@ -8,7 +8,7 @@ export default class ServiceAccount {
 
         const config = {
             method: "post",
-            maxBodyLength: Infinity,
+            maxBodyLength: Number.POSITIVE_INFINITY,
             url: `${process.env.KEYCLOAK_AUTH_SERVER_URL}/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/token`,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -29,7 +29,7 @@ export default class ServiceAccount {
     public fetchUser = async (token: string, userSub: string) => {
         const config = {
             method: "get",
-            maxBodyLength: Infinity,
+            maxBodyLength: Number.POSITIVE_INFINITY,
             url: `${process.env.KEYCLOAK_AUTH_SERVER_URL}/admin/realms/${process.env.KEYCLOAK_REALM}/users/${userSub}`,
             headers: {
                 Authorization: `Bearer ${token}`,

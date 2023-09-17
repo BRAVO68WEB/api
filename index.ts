@@ -1,15 +1,16 @@
 import { Hono } from "hono";
+import { serveStatic } from "hono/bun";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import { serveStatic } from "hono/bun";
+
+import "./configs";
 
 import { hgqlInit } from "./helpers";
 import cacheClient from "./helpers/cache.factory";
-import routes from "./routes";
+import discordBotConnect from "./helpers/discord_bot_client";
 import { notFoundHandler } from "./libs";
 import pkg from "./package.json" assert { type: "json" };
-import "./configs";
-import discordBotConnect from "./helpers/discord_bot_client";
+import routes from "./routes";
 
 export const app = new Hono();
 
@@ -26,13 +27,13 @@ app.use(
         origin: "*",
         allowMethods: ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"],
         credentials: true,
-        maxAge: 86400,
+        maxAge: 86_400,
     }),
 );
 
 app.use("*", logger());
 
-console.log("☄ ", "Base Route", "/");
+console.log("☄", "Base Route", "/");
 
 app.route("/", routes);
 

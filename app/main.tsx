@@ -8,16 +8,18 @@ interface SiteData {
     children?: any;
 }
 
-const Layout = (props: SiteData) => html`<!DOCTYPE html>
-    <html>
-        <head>
-            <title>${props.title}</title>
-            <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        </head>
-        <body>
-            ${props.children}
-        </body>
-    </html>`;
+const Layout = (props: SiteData) => html`
+  <!DOCTYPE html>
+      <html>
+          <head>
+              <title>${props.title}</title>
+              <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+          </head>
+          <body>
+              ${props.children}
+          </body>
+      </html>
+`;
 
 const Content = (props: { siteData: SiteData; name: string }) => (
     <Layout {...props.siteData}>
