@@ -38,7 +38,7 @@
     "node-cache": "^5.1.2",
     "nodemailer": "^6.9.4",
     "openid-client": "https://github.com/BRAVO68WEB/node-openid-client#f871933",
-    "osu-api-extended": "2.5.12",
+    "osu-api-extended": "2.7.67",
     "ping": "^0.4.4",
     "redis": "^4.6.8",
     "typescript": "^5.2.2",
