@@ -9,7 +9,8 @@ export default class HackTheBoxController extends HackTheBoxService {
             const id = 1367733;
             const data = await this.profile(id);
             return ctx.json(makeResponse(data));
-        } catch {
+        } catch(error) {
+            console.log(error);
             return ctx.json(makeResponse("Error fetching HackTheBox Stats", {}, "Failed", true), 401);
         }
     };
