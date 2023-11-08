@@ -61,7 +61,8 @@ const ZodEnvironmentVariables = z.object({
     MAIL_PASS: z.string(),
     MAIL_LOGGER: z.string(),
     MAIL_FROM_EMAIL: z.string(),
-    MAIL_FROM_NAME: z.string()
+    MAIL_FROM_NAME: z.string(),
+    HTB_TOKEN: z.string()
 });
 
 ZodEnvironmentVariables.parse(process.env);
