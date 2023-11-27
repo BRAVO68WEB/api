@@ -6,7 +6,6 @@ export default class HashnodeService {
         query {
             user(username: "bravo68web") {
               name
-              bio
               username
               tagline
               dateJoined
