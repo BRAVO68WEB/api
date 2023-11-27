@@ -12,6 +12,7 @@ const authClient = new KEYCLOAK_ISSUER.Client({
     credentials: {
         secret: process.env.KEYCLOAK_CLIENT_SECRET,
     },
+    timeout: 5000,
     "confidential-port": 0,
     "policy-enforcer": {
         credentials: {},

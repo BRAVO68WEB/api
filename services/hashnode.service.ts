@@ -37,6 +37,9 @@ export default class HashnodeService {
                     ogMetaData {
                       image
                     }
+		    posts(first: 1) {
+                      totalDocuments
+                    }
                     metaTags
                     descriptionSEO
                     links {

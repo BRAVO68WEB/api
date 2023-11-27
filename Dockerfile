@@ -1,4 +1,4 @@
-FROM oven/bun:latest
+FROM oven/bun:1.0.11
 
 WORKDIR /usr/src/app
 
@@ -8,7 +8,7 @@ RUN bun i
 
 COPY . .
 
-RUN bun run build
+#RUN bun run build
 
 EXPOSE 9000
 
