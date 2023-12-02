@@ -31,7 +31,7 @@ export default class CacheClient {
         if (env === "production") {
             this._redisClient = redis.createClient({
                 url: redisUrl,
-                name: "currency-exchange-cache",
+                name: "b68-api-cache",
             });
             this._redisClient.connect();
         }
