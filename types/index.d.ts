@@ -5,3 +5,10 @@ export interface PaginationType {
     sort_by?: string;
     filters?: { [k: string]: any };
 }
+
+interface IContactFormInput {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+}
