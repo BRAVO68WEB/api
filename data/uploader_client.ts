@@ -1,4 +1,4 @@
-import { S3Client, S3ClientConfig } from "@aws-sdk/client-s3";
+import { ObjectCannedACL, S3Client, S3ClientConfig } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 
 export default class UploaderService {
@@ -23,7 +23,7 @@ export default class UploaderService {
         UploaderService._s3Client = client;
     }
 
-    async uploadFile(entity: string, id: string, file: Buffer, acl?: string) {
+    async uploadFile(entity: string, id: string, file: Buffer, acl: ObjectCannedACL) {
         const parallelUploads3 = new Upload({
             client: UploaderService._s3Client,
             params: {
