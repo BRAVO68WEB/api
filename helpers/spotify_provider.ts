@@ -44,6 +44,7 @@ const getAccessToken = async () => {
 if (process.env.NODE_ENV === "production") {
     getAccessToken();
 } else {
+    // file deepcode ignore HardcodedNonCryptoSecret: "Testing HardcodedNonCryptoSecret for development"
     accessToken = "ascawqw3efwsedve45gedrfwe34rwefrwsedgvbxxxxxxxxxxxxxxxxxxxxxxxx";
     console.log("🤞", "Spotify Token not generated");
 }
