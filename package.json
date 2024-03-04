@@ -31,7 +31,7 @@
     "envfile": "^7.0.0",
     "graphql": "^16.8.0",
     "graphql-request": "^6.1.0",
-    "hono": "^3.6.2",
+    "hono": "^4.0.9",
     "joi": "^17.9.2",
     "mmdb-lib": "^2.0.2",
     "nanoid": "^5.0.1",
