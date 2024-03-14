@@ -32,12 +32,12 @@ export default class AuthController extends APIKey {
 
     public callback = async (ctx: Context) => {
         try {
-            const { session_state, code } = ctx.req.query();
-            const response = await callbackOn(session_state, code);
+            const { code } = ctx.req.query();
+            const response = await callbackOn(code);
             return ctx.json(makeResponse(response));
         } catch (error) {
             console.log(error);
-            return ctx.json(makeResponse("Callback Failed", {}, "Failed", true));
+            return ctx.json(makeResponse("Callback Failed", error, "Failed", true));
         }
     };
 
