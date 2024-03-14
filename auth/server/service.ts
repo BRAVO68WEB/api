@@ -9,11 +9,11 @@ export default class ServiceAccount {
         const config = {
             method: "post",
             maxBodyLength: Number.POSITIVE_INFINITY,
-            url: `${process.env.KEYCLOAK_AUTH_SERVER_URL}/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/token`,
+            url: `${process.env.AUTH0_AUTH_SERVER_URL}/protocol/openid-connect/token`,
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
                 Authorization: `Basic ${Buffer.from(
-                    `${process.env.KEYCLOAK_CLIENT_ID}:${process.env.KEYCLOAK_CLIENT_SECRET}`,
+                    `${process.env.AUTH0_CLIENT_ID}:${process.env.AUTH0_CLIENT_SECRET}`,
                 ).toString("base64")}`,
             },
             data: rdata,
@@ -30,7 +30,7 @@ export default class ServiceAccount {
         const config = {
             method: "get",
             maxBodyLength: Number.POSITIVE_INFINITY,
-            url: `${process.env.KEYCLOAK_AUTH_SERVER_URL}/admin/realms/${process.env.KEYCLOAK_REALM}/users/${userSub}`,
+            url: `${process.env.AUTH0_AUTH_SERVER_URL}/admin/users/${userSub}`,
             headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/x-www-form-urlencoded",

@@ -1,11 +1,11 @@
 import { authClient } from "../helpers/auth_client";
 import { code_verifier } from "./signin";
 
-export const callbackOn = async (session_state: string, code: string) => {
+export const callbackOn = async (code: string) => {
     return authClient.callback(
-        process.env.KEYCLOAK_REDIRECT_URI,
-        { code_verifier, code, session_state, expires_in: "1d" },
-        { code_verifier },
+        process.env.AUTH0_REDIRECT_URI,
+        { code_verifier, code },
+        { code_verifier }
     );
 };
 

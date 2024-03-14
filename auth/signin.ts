@@ -7,11 +7,11 @@ const code_challenge = generators.codeChallenge(code_verifier);
 
 export const signon = () => {
     const authurl = authClient.authorizationUrl({
-        scope: "email profile openid roles",
+        scope: "email profile openid",
         code_challenge,
         code_challenge_method: "S256",
-        client_id: process.env.KEYCLOAK_CLIENT_ID,
-        redirect_uri: process.env.KEYCLOAK_REDIRECT_URI,
+        client_id: process.env.AUTH0_CLIENT_ID,
+        redirect_uri: process.env.AUTH0_REDIRECT_URI,
     });
 
     return {
@@ -24,7 +24,7 @@ export const signonCLI = () => {
         scope: "email profile openid roles",
         code_challenge,
         code_challenge_method: "S256",
-        client_id: process.env.KEYCLOAK_CLIENT_ID,
+        client_id: process.env.AUTH0_CLIENT_ID,
         redirect_uri: "http://localhost:8787/signin/callback",
     });
 
@@ -38,7 +38,7 @@ export const signonApp = () => {
         scope: "email profile openid roles",
         code_challenge,
         code_challenge_method: "S256",
-        client_id: process.env.KEYCLOAK_CLIENT_ID,
+        client_id: process.env.AUTH0_CLIENT_ID,
         redirect_uri: "b68-admin://callback",
     });
 
