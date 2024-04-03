@@ -21,8 +21,5 @@
     "exclude": ["./node_modules/**/*", "./build/**/*"],
     "extends": "@bravo68web/tsconfig/base.json",
     "files": ["types/index.d.ts"],
-    "include": ["./**/*.ts", "./**/*.tsx", "./**/*.js"],
-    "ts-node": {
-        "swc": true
-    }
+    "include": ["./**/*.ts", "./**/*.tsx", "./**/*.js"]
 }

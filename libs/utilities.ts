@@ -1,5 +1,3 @@
-import { PaginationType } from "../types";
-
 export const makeResponse = (
     data: any,
     meta_data: any = null,
