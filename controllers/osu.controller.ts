@@ -3,10 +3,12 @@ import { Context } from "hono";
 import { makeResponse } from "../libs";
 import OsuService from "../services/osu.service";
 
+const osuService = new OsuService()
+
 export default class OsuController extends OsuService {
     public fetchUser = async (ctx: Context) => {
         try {
-            const data = await this.getOsuSelf();
+            const data = await osuService.getOsuSelf();
             return ctx.json(makeResponse(data));
         } catch {
             return ctx.json(makeResponse("Error fetching Osu Stats", {}, "Failed", true), 401);
@@ -15,7 +17,7 @@ export default class OsuController extends OsuService {
 
     public fetchBestScores = async (ctx: Context) => {
         try {
-            const data = await this.bestScoresSelf();
+            const data = await osuService.bestScoresSelf();
             return ctx.json(makeResponse(data));
         } catch {
             return ctx.json(makeResponse("Error fetching Osu Stats", {}, "Failed", true), 401);
@@ -24,7 +26,7 @@ export default class OsuController extends OsuService {
 
     public fetchFavBeatmaps = async (ctx: Context) => {
         try {
-            const data = await this.favouriteBeatmapsSelf();
+            const data = await osuService.favouriteBeatmapsSelf();
             return ctx.json(makeResponse(data));
         } catch {
             return ctx.json(makeResponse("Error fetching Osu Stats", {}, "Failed", true), 401);
@@ -33,7 +35,7 @@ export default class OsuController extends OsuService {
 
     public fetchRecentScores = async (ctx: Context) => {
         try {
-            const data = await this.recentScoresSelf();
+            const data = await osuService.recentScoresSelf();
             return ctx.json(makeResponse(data));
         } catch {
             return ctx.json(makeResponse("Error fetching Osu Stats", {}, "Failed", true), 401);

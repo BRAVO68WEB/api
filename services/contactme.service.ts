@@ -1,5 +1,4 @@
 import mailer from "../helpers/mailer";
-import { IContactFormInput } from "../types";
 
 export default class IPInfo {
     public postQueryToMail = async (contactData: IContactFormInput) => {

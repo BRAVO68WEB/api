@@ -1,72 +1,29 @@
 import { Context } from "hono";
+import { revokeSession, processOAuthCallback } from "@hono/oidc-auth";
 
 import {
     APIKey,
-    callbackApp,
-    callbackCLI,
-    callbackOn,
-    introspect,
-    refresh,
-    revoke,
-    signon,
-    signonApp,
-    signonCLI,
 } from "../auth";
 import { makeResponse } from "../libs";
 
 export default class AuthController extends APIKey {
-    public signin = (ctx: Context) => {
-        const { authurl } = signon();
-        return ctx.redirect(authurl);
-    };
-
-    public signinCLI = (ctx: Context) => {
-        const { authurl } = signonCLI();
-        return ctx.redirect(authurl);
-    };
-
-    public signinAPP = (ctx: Context) => {
-        const { authurl } = signonApp();
-        return ctx.redirect(authurl);
-    };
-
     public callback = async (ctx: Context) => {
         try {
-            const { session_state, code } = ctx.req.query();
-            const response = await callbackOn(session_state, code);
-            return ctx.json(makeResponse(response));
+            return processOAuthCallback(ctx);
         } catch (error) {
             console.log(error);
-            return ctx.json(makeResponse("Callback Failed", {}, "Failed", true));
+            return ctx.json(makeResponse("Callback Failed", error, "Failed", true));
         }
     };
 
-    public callbackCLI = async (ctx: Context) => {
-        const { session_state, code } = ctx.req.query();
-        return ctx.json(makeResponse(await callbackCLI(session_state, code)));
-    };
-
-    public callbackAPP = async (ctx: Context) => {
-        const { session_state, code } = ctx.req.query();
-        return ctx.json(makeResponse(await callbackApp(session_state, code)));
-    };
-
-    public me = (ctx: Context) => {
-        const user = ctx.get("user");
-        return ctx.json(makeResponse(user.userData));
-    };
-
     public logout = async (ctx: Context) => {
-        return ctx.json(makeResponse(await revoke(ctx)));
-    };
-
-    public refresh = async (ctx: Context) => {
-        return ctx.json(makeResponse(await refresh(ctx)));
-    };
-
-    public introspect = async (ctx: Context) => {
-        return ctx.json(makeResponse(await introspect(ctx)));
-    };
+        try {
+            return revokeSession(ctx);
+        } catch (error) {
+            console.log(error);
+            return ctx.json(makeResponse("Logout Failed", error, "Failed", true));
+        }
+    }
 
     public createKey = async (ctx: Context) => {
         const user = ctx.get("user");

@@ -1,4 +1,4 @@
-export interface PaginationType {
+interface PaginationType {
     page: number;
     limit: number;
     sort_order?: "asc" | "desc";

@@ -2,6 +2,8 @@ import axios from "axios";
 
 export const axiosInstance = axios.create({});
 
+axiosInstance.defaults.headers.common["Accept-Encoding"] = "gzip";
+
 axiosInstance.interceptors.request.use(
     config => {
         const newConfig: any = { ...config };

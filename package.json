@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "api",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Rewrite for Bravo68web API",
   "license": "MIT",
   "author": "Jyotirmoy Bandyopadhyaya [Bravo68] <jbandyopadhayaya@gmail.com>",
@@ -26,7 +26,8 @@
     "@discordjs/core": "^1.0.1",
     "@discordjs/rest": "^2.0.1",
     "@discordjs/ws": "^1.0.1",
-    "axios": "^1.4.0",
+    "@hono/oidc-auth": "^1.0.1",
+    "axios": "^1.6.4",
     "dotenv": "^16.3.1",
     "envfile": "^7.0.0",
     "graphql": "^16.8.0",
@@ -37,8 +38,6 @@
     "nanoid": "^5.0.1",
     "node-cache": "^5.1.2",
     "nodemailer": "^6.9.4",
-    "openid-client": "https://github.com/BRAVO68WEB/node-openid-client#f871933",
-    "osu-api-extended": "2.5.12",
     "ping": "^0.4.4",
     "redis": "^4.6.8",
     "typescript": "^5.2.2",
@@ -64,9 +63,8 @@
     "eslint": "^8.48.0",
     "eslint-plugin-react": "^7.33.2",
     "graphqurl": "^1.0.1",
-    "hasura-cli": "^2.33.4",
-    "prettier": "^3.0.3",
-    "ts-node": "^10.9.1"
+    "hasura-cli": "2.36.1",
+    "prettier": "^3.0.3"
   },
   "prettier": "@bravo68web/prettier-config"
 }

@@ -4,7 +4,12 @@ import OsuController from "../../../controllers/osu.controller";
 
 const router = new Hono();
 
-const { fetchBestScores, fetchFavBeatmaps, fetchRecentScores, fetchUser } = new OsuController();
+const { 
+    fetchBestScores, 
+    fetchUser,
+    fetchFavBeatmaps,
+    fetchRecentScores,
+} = new OsuController();
 
 router.get("/user", fetchUser);
 router.get("/best", fetchBestScores);
