@@ -11,8 +11,7 @@
   "scripts": {
     "build": "tsc",
     "cli": "bun run cli.ts",
-    "dev": "concurrently \"bun run dev:api\" \"bun run dev:hasura\"",
-    "dev:api": "bun run --hot index.ts",
+    "dev": "bun run --hot index.ts",
     "dev:hasura": "cd hasura && hasura --skip-update-check  --envfile ../.env console --no-browser",
     "schema:fetch": "bash ./bin/fetch-gql-schema.sh",
     "schema:generate": "graphql-codegen --config codegen.yml",
@@ -59,7 +58,6 @@
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "bun-types": "latest",
     "concurrently": "^8.2.1",
-    "cross-env": "^7.0.3",
     "eslint": "^8.48.0",
     "eslint-plugin-react": "^7.33.2",
     "graphqurl": "^1.0.1",
