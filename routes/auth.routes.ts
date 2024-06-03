@@ -1,4 +1,4 @@
-import { Hono } from "hono";
+import { Hono, Context } from "hono";
 import { oidcAuthMiddleware } from "@hono/oidc-auth";
 
 import { keyware,middleware } from "../auth";
@@ -17,5 +17,8 @@ router.get("/callback", authController.callback);
 router.get("/logout", middleware, authController.logout);
 
 router.use('*', oidcAuthMiddleware());
+router.get("/whoami", middleware, async (ctx: Context) => {
+    return ctx.json((await ctx.get("user")).userData);
+})
 
 export default router;

@@ -13,7 +13,7 @@
     "cli": "bun run cli.ts",
     "dev": "concurrently \"bun run dev:api\" \"bun run dev:hasura\"",
     "dev:api": "bun run --hot index.ts",
-    "dev:hasura": "cd hasura && bunx hasura-cli --skip-update-check  --envfile ../.env console --no-browser",
+    "dev:hasura": "cd hasura && hasura --skip-update-check  --envfile ../.env console --no-browser",
     "schema:fetch": "bash ./bin/fetch-gql-schema.sh",
     "schema:generate": "graphql-codegen --config codegen.yml",
     "start": "bun run build/index.js",
