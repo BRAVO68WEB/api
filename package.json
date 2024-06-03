@@ -63,7 +63,7 @@
     "eslint": "^8.48.0",
     "eslint-plugin-react": "^7.33.2",
     "graphqurl": "^1.0.1",
-    "hasura-cli": "2.36.1",
+    "hasura-cli": "2.38.0",
     "prettier": "^3.0.3"
   },
   "prettier": "@bravo68web/prettier-config"
