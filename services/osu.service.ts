@@ -40,11 +40,18 @@ export default class Osu {
           })
         });
       
-        this.session = { access_token, expires_in }
+        this.session = { access_token, expires_in: Date.now() + expires_in * 1000}
         return { access_token, expires_in };
     };
 
+    public async checkIfTokenRenewalNeeded() {
+        if (this.session.expires_in <= Date.now() + 20 * 60 * 1000) {
+            this.osuLogin(Number(config.OSU_CLIENT_ID), config.OSU_CLIENT_SECRET, ['public']);
+        }
+    }
+
     public async getOsuSelf() {
+        await this.checkIfTokenRenewalNeeded();
         const token = this.session;
         
         const { data } = await axiosInstance.get(`${this.url}users/15227110`, {
@@ -57,6 +64,7 @@ export default class Osu {
     }
 
     public async bestScoresSelf() {
+        await this.checkIfTokenRenewalNeeded();
         const token = this.session;
 
         const { data } = await axiosInstance.get(`${this.url}users/15227110/scores/best`, {
@@ -69,6 +77,7 @@ export default class Osu {
     }
 
     public async recentScoresSelf() {
+        await this.checkIfTokenRenewalNeeded();
         const token = this.session;
 
         const { data } = await axiosInstance.get(`${this.url}users/15227110/scores/recent`, {
@@ -81,6 +90,7 @@ export default class Osu {
     }
 
     public async favouriteBeatmapsSelf() {
+        await this.checkIfTokenRenewalNeeded();
         const token = this.session;
 
         const { data } = await axiosInstance.get(`${this.url}users/15227110/beatmapsets/favourite`, {
