@@ -83,8 +83,6 @@ export const getSignInUrl = async () => {
         ],
     });
 
-    console.log({ redirectUri, codeVerifier, state, signInUri });
-
     return { redirectUri, codeVerifier, state, signInUri };
 };
 

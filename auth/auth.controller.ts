@@ -32,7 +32,14 @@ export const Callback = async (ctx: Context) => {
     if (!codeVerifier || !state || !redirectUri) {
         throw new HTTPException(400, { message: 'Code verifier, state, or redirect uri not found' });
     }
-    const callbackUri = ctx.req.url;
+    let callbackUri = ctx.req.url;
+    // Check for protocol of redirect uri, match it with protocol of callback
+    if (callbackUri.startsWith('http:') && redirectUri.startsWith('https:')) {
+        callbackUri = callbackUri.replace('http:', 'https:');
+    } else if (callbackUri.startsWith('https:') && redirectUri.startsWith('http:')) {
+        callbackUri = callbackUri.replace('https:', 'http:');
+    }
+
     const tokenResponse = await handleSignIn({ codeVerifier, state, redirectUri }, callbackUri);
     
     setCookie(ctx, 'access_token', tokenResponse.accessToken);
@@ -106,8 +113,6 @@ export const Logout = async (ctx: Context) => {
         endSessionEndpoint,
         clientId: config.appId,
     });
-
-    console.log("Generated sign out URI:", signOutUri);
 
     return ctx.redirect(signOutUri);
 }
