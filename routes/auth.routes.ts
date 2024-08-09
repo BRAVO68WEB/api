@@ -1,24 +1,16 @@
-import { Hono, Context } from "hono";
-import { oidcAuthMiddleware } from "@hono/oidc-auth";
+import { Hono } from "hono";
 
-import { keyware,middleware } from "../auth";
-import AuthController from "../controllers/auth.controller";
+import { Callback, LoginUrl, UserInfo, Logout } from "../auth/auth.controller";
+import { withAuth } from "../auth/auth.middleware";
 
 const router = new Hono();
-const authController = new AuthController();
 
-router.put("/key", middleware, authController.createKey);
-router.get("/key", middleware, authController.fetchKey);
-router.delete("/key", middleware, authController.deleteKey);
-router.post("/key/verify", authController.validateKeyBody);
-router.get("/key/verify", keyware, authController.validateKeyHeader);
-
-router.get("/callback", authController.callback);
-router.get("/logout", middleware, authController.logout);
-
-router.use('*', oidcAuthMiddleware());
-router.get("/whoami", middleware, async (ctx: Context) => {
-    return ctx.json((await ctx.get("user")).userData);
-})
+router.all("/login", LoginUrl)
+router.all("/callback", Callback)
+router.all("/whoami", withAuth({
+    requireAuth: true,
+    requiredRoles: []
+}), UserInfo)
+router.all("/logout", Logout)
 
 export default router;
