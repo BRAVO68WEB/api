@@ -13,11 +13,15 @@ router.get("/", (ctx: Context) => {
 router.get("/spotify", login);
 router.get("/spotify/callback", loginCallback);
 
-router.all("/err", (ctx: Context) => {
+router.all("/err", async (ctx: Context) => {
     try {
         throw new Error("This is an error");
     } catch (error) {
-        return ctx.json(error);
+        if(error instanceof Error) {
+            return ctx.json({
+                error: error.message,
+            });
+        }
     }
 });
 
