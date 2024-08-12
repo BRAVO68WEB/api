@@ -38,7 +38,7 @@
     "mmdb-lib": "^2.1.1",
     "nanoid": "^5.0.7",
     "node-cache": "^5.1.2",
-    "node-fetch": "^2.7.0",
+    "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.14",
     "ping": "^0.4.4",
     "redis": "^4.7.0",
