@@ -40,9 +40,9 @@ export default class CacheClient {
         console.log(`🍞 Caching Client initialized in '${env}' environment`);
     }
 
-    static async set(key: string, value: any) {
+    static async set(key: string, value: unknown) {
         if (this._clientMode === "production") {
-            await this._redisClient.set(key, value);
+            await this._redisClient.set(key, value as string);
         } else {
             this._nodeClient.set(key, value);
         }

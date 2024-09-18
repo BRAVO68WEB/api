@@ -10,7 +10,7 @@ export class APIKey {
         return crypto.randomBytes(32).toString("hex");
     }
 
-    public async fetchKeyS(userSub: string): Promise<any> {
+    public async fetchKeyS(userSub: string): Promise<unknown> {
         const initQuery = gql`
           query findUser($userSub: uuid!) {
               apikey_by_pk(user_id: $userSub) {
@@ -25,7 +25,7 @@ export class APIKey {
         return data.apikey_by_pk;
     }
 
-    public async createKeyS(userSub: string): Promise<any> {
+    public async createKeyS(userSub: string): Promise<unknown> {
         const serchKey = await this.fetchKeyS(userSub);
         const key = this.generateKey();
         if (serchKey) {
@@ -62,7 +62,7 @@ export class APIKey {
         return data.insert_apikey_one;
     }
 
-    public async deleteKeyS(userSub: string): Promise<any> {
+    public async deleteKeyS(userSub: string): Promise<unknown> {
         const deleteQuery = gql`
           mutation deleteApiKey($userSub: uuid!) {
               delete_apikey_by_pk(user_id: $userSub) {
@@ -76,7 +76,7 @@ export class APIKey {
         return data.delete_apikey_by_pk;
     }
 
-    public async validateKeyS(key: string): Promise<any> {
+    public async validateKeyS(key: string): Promise<unknown> {
         const validateQuery = gql`
           query validateKey($key: String!) {
               apikey(where: { api_key: { _eq: $key } }) {

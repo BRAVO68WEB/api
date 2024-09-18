@@ -1,9 +1,9 @@
 import { Hono } from "hono";
 
+import contact from "./contact.routes";
 import ip from "./ip.routes";
 import ping from "./ping.routes";
 import upload from "./upload.routes";
-import contact from "./contact.routes";
 
 const router = new Hono();
 

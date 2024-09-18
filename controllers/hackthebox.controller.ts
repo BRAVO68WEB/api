@@ -6,7 +6,7 @@ import HackTheBoxService from "../services/hackthebox.service";
 export default class HackTheBoxController extends HackTheBoxService {
     public getProfile = async (ctx: Context) => {
         try {
-            const id = 1367733;
+            const id = 1_367_733;
             const data = await this.profile(id);
             return ctx.json(makeResponse(data));
         } catch(error) {
@@ -17,7 +17,7 @@ export default class HackTheBoxController extends HackTheBoxService {
 
     public getActivity = async (ctx: Context) => {
         try {
-            const id = 1367733;
+            const id = 1_367_733;
             const data = await this.activity(id);
             return ctx.json(makeResponse(data));
         } catch {
@@ -27,7 +27,7 @@ export default class HackTheBoxController extends HackTheBoxService {
 
     public getMechines = async (ctx: Context) => {
         try {
-            const id = 1367733;
+            const id = 1_367_733;
             const data = await this.mechines(id);
             return ctx.json(makeResponse(data));
         } catch {
@@ -37,7 +37,7 @@ export default class HackTheBoxController extends HackTheBoxService {
 
     public getChallenges = async (ctx: Context) => {
         try {
-            const id = 1367733;
+            const id = 1_367_733;
             const data = await this.challenges(id);
             return ctx.json(makeResponse(data));
         } catch {

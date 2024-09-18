@@ -1,35 +1,34 @@
-import fetch from 'node-fetch'
+import { createHash,randomFillSync } from "node:crypto";
 
+import { createRequester } from "@logto/client";
 import {  
-    withReservedScopes,
-    fetchOidcConfig,
     discoveryPath,
-    generateSignInUri,
-    verifyAndParseCodeFromCallbackUri,
+    fetchOidcConfig,
     fetchTokenByAuthorizationCode,
     fetchTokenByRefreshToken,
-} from '@logto/js'
-
-import { createRequester } from '@logto/client'
-import { randomFillSync, createHash } from 'node:crypto'
-import { fromUint8Array } from 'js-base64';
+    generateSignInUri,
+    verifyAndParseCodeFromCallbackUri,
+    withReservedScopes,
+} from "@logto/js";
+import { fromUint8Array } from "js-base64";
+import fetch from "node-fetch";
 
 export const config = {
-    endpoint: process.env.OIDC_ISSUER.split('/oidc')[0],
+    endpoint: process.env.OIDC_ISSUER.split("/oidc")[0],
     appId: process.env.OIDC_CLIENT_ID,
     appSecret: process.env.OIDC_CLIENT_SECRET,
     redirectUri: process.env.OIDC_REDIRECT_URI,
     scopes: withReservedScopes(
         [
-            'openid',
-            'profile',
-            'email',
-            'custom_data',
-            'roles',
-            'b68:upload'
+            "openid",
+            "profile",
+            "email",
+            "custom_data",
+            "roles",
+            "b68:upload"
         ]
-    ).split(' '),
-    postLogoutRedirectUri: 'https://api.b68.dev',
+    ).split(" "),
+    postLogoutRedirectUri: "https://api.b68.dev",
 };
 
 export const requester = createRequester(async (...args: Parameters<typeof fetch>) => {
@@ -40,8 +39,8 @@ export const requester = createRequester(async (...args: Parameters<typeof fetch
       headers: {
         Authorization: `Basic ${Buffer.from(
           `${config.appId}:${config.appSecret}`,
-          'utf8'
-        ).toString('base64')}`,
+          "utf8"
+        ).toString("base64")}`,
         ...init?.headers,
       },
     });
@@ -53,7 +52,7 @@ export const generateRandomString = (length = 64) => {
 
 export const generateCodeChallenge = async (codeVerifier) => {
     const encodedCodeVerifier = new TextEncoder().encode(codeVerifier);
-    const hash = createHash('sha256');
+    const hash = createHash("sha256");
     hash.update(encodedCodeVerifier);
     const codeChallenge = hash.digest();
     return fromUint8Array(codeChallenge, true);
@@ -79,7 +78,7 @@ export const getSignInUrl = async () => {
         state,
         scopes,
         resources: [
-            'https://api.b68.dev',
+            "https://api.b68.dev",
         ],
     });
 
@@ -96,7 +95,7 @@ export const handleSignIn = async (signInSession: {
 
     const { appId: clientId } = config;
     const { tokenEndpoint } = await getOidcConfig();
-    const codeTokenResponse = await fetchTokenByAuthorizationCode(
+    return await fetchTokenByAuthorizationCode(
         {
             clientId,
             tokenEndpoint,
@@ -106,14 +105,12 @@ export const handleSignIn = async (signInSession: {
         },
         requester
     );
-
-    return codeTokenResponse;
 };
 
 export const refreshTokens = async (refreshToken) => {
     const { appId: clientId, scopes } = config;
     const { tokenEndpoint } = await getOidcConfig();
-    const tokenResponse = await fetchTokenByRefreshToken(
+    return await fetchTokenByRefreshToken(
         {
             clientId,
             tokenEndpoint,
@@ -122,6 +119,4 @@ export const refreshTokens = async (refreshToken) => {
         },
         requester
     );
-
-    return tokenResponse;
 };

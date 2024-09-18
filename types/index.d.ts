@@ -3,7 +3,7 @@ interface PaginationType {
     limit: number;
     sort_order?: "asc" | "desc";
     sort_by?: string;
-    filters?: { [k: string]: any };
+    filters?: { [k: string]: unknown };
 }
 
 interface IContactFormInput {

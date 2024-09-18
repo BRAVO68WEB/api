@@ -8,7 +8,7 @@ export default class DiscordBotClient {
     public static _currentPresence;
 
     public static init() {
-        this._rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN);
+        this._rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN as string);
         this._gateway = new WebSocketManager({
             token: process.env.DISCORD_BOT_TOKEN,
             intents: GatewayIntentBits.GuildPresences,
@@ -26,7 +26,7 @@ export default class DiscordBotClient {
         return this._currentPresence;
     };
 
-    public static setPresence = async (presence: any) => {
+    public static setPresence = async (presence: unknown) => {
         this._currentPresence = presence;
     };
 

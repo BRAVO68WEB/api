@@ -1,8 +1,8 @@
-import axiosInstance from "../helpers/axios_client"
+import axiosInstance from "../helpers/axios_client";
 
 const config = process.env;
 
-export type auth_scopes = ('chat.write' | 'delegate' | 'forum.write' | 'friends.read' | 'identify' | 'public')[];
+export type auth_scopes = ("chat.write" | "delegate" | "forum.write" | "friends.read" | "identify" | "public")[];
 
 interface Login {
     access_token: string,
@@ -10,47 +10,49 @@ interface Login {
 }
 
 export default class Osu {
-    private session;
-    private url = 'https://osu.ppy.sh/api/v2/';
+    private static session;
+    private static url = "https://osu.ppy.sh/api/v2/";
 
-    constructor() {
-        this.osuLogin(Number(config.OSU_CLIENT_ID), config.OSU_CLIENT_SECRET, ['public']);
-    }
+    public static instance: Osu;
 
-    public osuLogin = async (clientId: number, clientSecret: string, scope: auth_scopes): Promise<Login> => {
-        if (!Array.isArray(scope) || !scope) throw new Error('Scope must be an Array');
+    public static readonly init = async () => {
+        await this.osuLogin(Number(config.OSU_CLIENT_ID), config.OSU_CLIENT_SECRET, ["public"]);
+    };
+
+    public static readonly osuLogin = async (clientId: number, clientSecret: string, scope: auth_scopes): Promise<Login> => {
+        if (!Array.isArray(scope) || !scope) throw new Error("Scope must be an Array");
       
         const { 
             data: {
                 access_token, expires_in
             } 
-        } = await axiosInstance('https://osu.ppy.sh/oauth/token', {
-          method: 'POST',
+        } = await axiosInstance("https://osu.ppy.sh/oauth/token", {
+          method: "POST",
           headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            'x-api-version': '20240130',
+            "x-api-version": "20240130",
           },
           data: JSON.stringify({
-            grant_type: 'client_credentials',
+            grant_type: "client_credentials",
             client_id: clientId,
             client_secret: clientSecret,
-            scope: scope.join(' '),
-            code: 'code',
+            scope: scope.join(" "),
+            code: "code",
           })
         });
       
-        this.session = { access_token, expires_in: Date.now() + expires_in * 1000}
+        this.session = { access_token, expires_in: Date.now() + expires_in * 1000};
         return { access_token, expires_in };
     };
 
-    public async checkIfTokenRenewalNeeded() {
+    public static async checkIfTokenRenewalNeeded() {
         if (this.session.expires_in <= Date.now() + 20 * 60 * 1000) {
-            this.osuLogin(Number(config.OSU_CLIENT_ID), config.OSU_CLIENT_SECRET, ['public']);
+            await this.osuLogin(Number(config.OSU_CLIENT_ID), config.OSU_CLIENT_SECRET, ["public"]);
         }
     }
 
-    public async getOsuSelf() {
+    public static async getOsuSelf() {
         await this.checkIfTokenRenewalNeeded();
         const token = this.session;
         
@@ -63,7 +65,7 @@ export default class Osu {
         return data;
     }
 
-    public async bestScoresSelf() {
+    public static async bestScoresSelf() {
         await this.checkIfTokenRenewalNeeded();
         const token = this.session;
 
@@ -76,7 +78,7 @@ export default class Osu {
         return data;        
     }
 
-    public async recentScoresSelf() {
+    public static async recentScoresSelf() {
         await this.checkIfTokenRenewalNeeded();
         const token = this.session;
 
@@ -89,7 +91,7 @@ export default class Osu {
         return data;
     }
 
-    public async favouriteBeatmapsSelf() {
+    public static async favouriteBeatmapsSelf() {
         await this.checkIfTokenRenewalNeeded();
         const token = this.session;
 

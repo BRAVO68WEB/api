@@ -5,7 +5,7 @@ const app = new Hono();
 
 interface SiteData {
     title: string;
-    children?: any;
+    children?: unknown;
 }
 
 const Layout = (props: SiteData) => html`

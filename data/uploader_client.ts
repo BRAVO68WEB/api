@@ -23,7 +23,7 @@ export default class UploaderService {
         UploaderService._s3Client = client;
     }
 
-    async uploadFile(entity: string, id: string, file: Buffer, acl: ObjectCannedACL) {
+    async uploadFile(entity: string, id: string, file: File, acl: ObjectCannedACL) {
         const parallelUploads3 = new Upload({
             client: UploaderService._s3Client,
             params: {

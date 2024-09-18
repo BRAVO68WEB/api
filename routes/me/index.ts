@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 
 import discord from "./discord.routes";
+import gaming from "./gaming";
 import github from "./github.routes";
 import gitlab from "./gitlab.routes";
 import hackthebox from "./hackthebox.routes";
@@ -11,8 +12,6 @@ import spotify from "./spotify.routes";
 import twitter from "./twitter.routes";
 import vscode from "./vscode.routes";
 import wakatime from "./wakatime.routes";
-
-import gaming from "./gaming";
 
 const router = new Hono();
 

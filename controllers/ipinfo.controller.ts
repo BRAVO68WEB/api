@@ -21,7 +21,7 @@ export default class IPInfoController {
     //     }
     // }
 
-    public async fetchIPInfo(ctx: Context): Promise<any> {
+    public async fetchIPInfo(ctx: Context): Promise<unknown> {
         try {
             const ip = ctx.req.param("ip");
             const data = await getIPInfo(ip);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const makeResponse = (
     data: any,
     meta_data: any = null,
