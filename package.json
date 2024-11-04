@@ -31,7 +31,7 @@
     "axios": "^1.7.7",
     "envfile": "^7.1.0",
     "graphql": "^16.9.0",
-    "graphql-request": "^6.1.0",
+    "graphql-request": "^7.1.2",
     "hono": "^4.6.2",
     "joi": "^17.13.3",
     "js-base64": "^3.7.7",
