@@ -8,7 +8,7 @@ RUN bun i
 
 COPY . .
 
-#RUN bun run build
+RUN bash bin/fetch-mmdb.sh
 
 EXPOSE 9000
 
