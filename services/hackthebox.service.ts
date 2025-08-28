@@ -2,7 +2,7 @@ import axios from "../helpers/axios_client";
 
 export default class HackTheBoxService {
     public profile = async (id: number) => {
-        const { data } = await axios.get(`https://www.hackthebox.com/api/v4/user/profile/basic/${id}`, {
+        const { data } = await axios.get(`https://labs.hackthebox.com/api/v4/user/profile/basic/${id}`, {
             headers: {
                 "Authorization": `Bearer ${process.env.HTB_TOKEN}`,
                 "Accept": "application/json, text/plain, */*"
@@ -12,7 +12,7 @@ export default class HackTheBoxService {
     };
 
     public activity =  async (id: number) => {
-        const { data } = await axios.get(`https://www.hackthebox.com/api/v4/user/profile/activity/${id}`, {
+        const { data } = await axios.get(`https://labs.hackthebox.com/api/v4/user/profile/activity/${id}`, {
             headers: {
                 "Authorization": `Bearer ${process.env.HTB_TOKEN}`,
                 "Accept": "application/json, text/plain, */*"
@@ -22,7 +22,7 @@ export default class HackTheBoxService {
     };
 
     public mechines =  async (id: number) => {
-        const { data } = await axios.get(`https://www.hackthebox.com/api/v4/user/profile/progress/machines/os/${id}`, {
+        const { data } = await axios.get(`https://labs.hackthebox.com/api/v4/user/profile/progress/machines/os/${id}`, {
             headers: {
                 "Authorization": `Bearer ${process.env.HTB_TOKEN}`,
                 "Accept": "application/json, text/plain, */*"
@@ -32,7 +32,7 @@ export default class HackTheBoxService {
     };
 
     public challenges =  async (id: number) => {
-        const { data } = await axios.get(`https://www.hackthebox.com/api/v4/user/profile/progress/challenges/${id}`, {
+        const { data } = await axios.get(`https://labs.hackthebox.com/api/v4/user/profile/progress/challenges/${id}`, {
             headers: {
                 "Authorization": `Bearer ${process.env.HTB_TOKEN}`,
                 "Accept": "application/json, text/plain, */*"
