@@ -18,6 +18,7 @@ services:
       - SPOTIFY_CLIENT_ID
       - SPOTIFY_CLIENT_SECRET
       - SPOTIFY_REDIRECT_URI
+      - SPOTIFY_REFRESH_TOKEN
       - OIDC_CLIENT_ID
       - OIDC_CLIENT_SECRET
       - OIDC_REDIRECT_URI
@@ -36,3 +37,8 @@ services:
       - MAIL_FROM_EMAIL
       - MAIL_FROM_NAME
       - HTB_TOKEN
+      - REDIS_URL=redis://redis:6379
+
+  redis:
+    image: redis:7-alpine
+    restart: always
