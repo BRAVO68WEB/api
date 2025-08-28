@@ -14,4 +14,4 @@ RUN bash bin/fetch-mmdb.sh
 
 EXPOSE 9000
 
-CMD [ "bun", "run", "--hot", "index.ts" ]
+CMD [ "bun", "run", "index.ts" ]
