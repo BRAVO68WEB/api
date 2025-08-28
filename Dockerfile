@@ -6,6 +6,8 @@ COPY package.json ./
 
 RUN bun i
 
+RUN apt update && apt install wget -y
+
 COPY . .
 
 RUN bash bin/fetch-mmdb.sh
