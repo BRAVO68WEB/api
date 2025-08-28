@@ -5,7 +5,6 @@ import { logger } from "hono/logger";
 
 import "./configs";
 
-import { hgqlInit } from "./helpers";
 import cacheClient from "./helpers/cache.factory";
 import discordBotConnect from "./helpers/discord_bot_client";
 import { notFoundHandler } from "./libs";
@@ -16,7 +15,6 @@ export const app = new Hono();
 
 console.log("🚀", "@b68/api", "v" + pkg.version);
 
-hgqlInit();
 cacheClient.init();
 
 discordBotConnect();

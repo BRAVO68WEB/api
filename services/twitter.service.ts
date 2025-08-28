@@ -1,21 +1,30 @@
 import axiosInstance from "../helpers/axios_client";
+import CacheClient from "../helpers/cache.factory";
 
 export default class TwitterService {
     public getSelfUserProfile = async () => {
+        const twitter_data = await CacheClient.get('twitter_self');
+        if(twitter_data) {
+            return twitter_data;
+        }
+
         const { data } = await axiosInstance.get(
-            "https://api.twitter.com/2/users/959990126687342595?user.fields=created_at,public_metrics,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,url,username,verified,withheld&expansions=pinned_tweet_id&tweet.fields=attachments,author_id,conversation_id,created_at,entities,geo,id,in_reply_to_user_id,lang,possibly_sensitive,referenced_tweets,source,text,withheld",
+            "https://api.x.com/2/users/959990126687342595?user.fields=created_at&user.fields=name&user.fields=username&user.fields=public_metrics&user.fields=url&user.fields=location&user.fields=id&user.fields=description&user.fields=verified&user.fields=profile_banner_url&user.fields=profile_image_url",
             {
                 headers: {
                     Authorization: "Bearer " + process.env.TWITTER_BEARER_TOKEN,
                 },
             },
         );
+
+        await CacheClient.set('twitter_self', data.data);
+
         return data.data;
     };
 
     public getSelfUserTweets = async () => {
         const { data } = await axiosInstance.get(
-            "https://api.twitter.com/2/users/959990126687342595/tweets?max_results=100&tweet.fields=attachments,author_id,conversation_id,created_at,entities,geo,id,in_reply_to_user_id,lang,possibly_sensitive,referenced_tweets,source,text,withheld",
+            "https://api.x.com/2/tweets/search/recent?query=from:bravo68web",
             {
                 headers: {
                     Authorization: "Bearer " + process.env.TWITTER_BEARER_TOKEN,

@@ -1,6 +1,7 @@
 import { Client,GatewayIntentBits } from "@discordjs/core";
 import { REST } from "@discordjs/rest";
 import { WebSocketManager } from "@discordjs/ws";
+
 export default class DiscordBotClient {
     public static _client: Client;
     public static _rest: REST;
@@ -8,16 +9,16 @@ export default class DiscordBotClient {
     public static _currentPresence;
 
     public static init() {
-        this._rest = new REST({ version: "10" }).setToken(process.env.DISCORD_BOT_TOKEN as string);
+        this._rest = new REST().setToken(process.env.DISCORD_BOT_TOKEN);
         this._gateway = new WebSocketManager({
             token: process.env.DISCORD_BOT_TOKEN,
             intents: GatewayIntentBits.GuildPresences,
-            rest: this._rest,
+            rest: this._rest as any,
             shardCount: 1,
             shardIds: [0],
         });
         this._client = new Client({
-            rest: this._rest,
+            rest: this._rest as any,
             gateway: this._gateway,
         });
     }

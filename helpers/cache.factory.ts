@@ -40,11 +40,19 @@ export default class CacheClient {
         console.log(`🍞 Caching Client initialized in '${env}' environment`);
     }
 
-    static async set(key: string, value: unknown) {
+    static async set(key: string, value: unknown, ttl?: number) {
         if (this._clientMode === "production") {
-            await this._redisClient.set(key, value as string);
+            if(ttl) {
+                await this._redisClient.setEx(key, ttl, JSON.stringify(value));
+            } else {
+                await this._redisClient.set(key, JSON.stringify(value));
+            }
         } else {
-            this._nodeClient.set(key, value);
+            if(ttl) {
+                await this._nodeClient.set(key, JSON.stringify(value), ttl);
+            } else {
+                this._nodeClient.set(key, JSON.stringify(value));
+            }
         }
     }
 

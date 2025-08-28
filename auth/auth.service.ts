@@ -13,7 +13,7 @@ import {
 import { fromUint8Array } from "js-base64";
 import fetch from "node-fetch";
 
-export const config = {
+export const authConfig = {
     endpoint: process.env.OIDC_ISSUER.split("/oidc")[0],
     appId: process.env.OIDC_CLIENT_ID,
     appSecret: process.env.OIDC_CLIENT_SECRET,
@@ -38,7 +38,7 @@ export const requester = createRequester(async (...args: Parameters<typeof fetch
       ...init,
       headers: {
         Authorization: `Basic ${Buffer.from(
-          `${config.appId}:${config.appSecret}`,
+          `${authConfig.appId}:${authConfig.appSecret}`,
           "utf8"
         ).toString("base64")}`,
         ...init?.headers,
@@ -59,7 +59,7 @@ export const generateCodeChallenge = async (codeVerifier) => {
 };
 
 export const getOidcConfig = async () => {
-    return fetchOidcConfig(new URL(discoveryPath, config.endpoint).toString(), requester);
+    return fetchOidcConfig(new URL(discoveryPath, authConfig.endpoint).toString(), requester);
 };
 
 export const getSignInUrl = async () => {
@@ -68,7 +68,7 @@ export const getSignInUrl = async () => {
     const codeChallenge = await generateCodeChallenge(codeVerifier);
     const state = generateRandomString();
 
-    const { redirectUri, scopes, appId: clientId } = config;
+    const { redirectUri, scopes, appId: clientId } = authConfig;
 
     const signInUri = generateSignInUri({
         authorizationEndpoint,
@@ -93,7 +93,7 @@ export const handleSignIn = async (signInSession: {
     const { redirectUri, state, codeVerifier } = signInSession;
     const code = verifyAndParseCodeFromCallbackUri(callbackUri, redirectUri, state);
 
-    const { appId: clientId } = config;
+    const { appId: clientId } = authConfig;
     const { tokenEndpoint } = await getOidcConfig();
     return await fetchTokenByAuthorizationCode(
         {
@@ -108,7 +108,7 @@ export const handleSignIn = async (signInSession: {
 };
 
 export const refreshTokens = async (refreshToken) => {
-    const { appId: clientId, scopes } = config;
+    const { appId: clientId, scopes } = authConfig;
     const { tokenEndpoint } = await getOidcConfig();
     return await fetchTokenByRefreshToken(
         {

@@ -8,7 +8,7 @@ import { getCookie,setCookie } from "hono/cookie";
 import { HTTPException } from "hono/http-exception";
 
 import {
-    config,
+    authConfig,
     getOidcConfig,
     getSignInUrl,
     handleSignIn,
@@ -105,7 +105,7 @@ export const Logout = async (ctx: Context) => {
 
     const signOutUri = generateSignOutUri({
         endSessionEndpoint,
-        clientId: config.appId,
+        clientId: authConfig.appId,
     });
 
     return ctx.redirect(signOutUri);
