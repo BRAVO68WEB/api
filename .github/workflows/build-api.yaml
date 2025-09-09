@@ -1,4 +1,6 @@
 name: Build Checks for API
+permissions:
+  contents: read
 
 on:
   push:
