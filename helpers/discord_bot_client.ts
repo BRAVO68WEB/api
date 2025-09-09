@@ -1,8 +1,15 @@
 import { GatewayDispatchEvents } from "@discordjs/core";
+import { isFeatureEnabled, FEATURE_FLAGS } from "../configs/features/flag";
 
 import DiscordBotClient from "./discord_bot.factory";
 
 export default async () => {
+    const discordEnabled = await isFeatureEnabled(FEATURE_FLAGS.DISCORD);
+    if (!discordEnabled) {
+        console.log("⚠️ Discord Feature Flag is disabled.");
+        return;
+    }
+
     DiscordBotClient.init();
 
     const DiscordBot = DiscordBotClient._client;

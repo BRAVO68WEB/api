@@ -1,8 +1,8 @@
-import mailer from "../helpers/mailer";
+import { Mailer } from "../helpers/mailer";
 
 export default class IPInfo {
     public postQueryToMail = async (contactData: IContactFormInput) => {
-        return await mailer({
+        return await Mailer.getInstance().sendMail({
             to: "hi-api@b68.dev",
             from: "api@b68web.xyz",
             replyTo: contactData.email,

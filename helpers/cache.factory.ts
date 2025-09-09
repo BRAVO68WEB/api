@@ -60,4 +60,74 @@ export default class CacheClient {
     static async get(key: string): Promise<string | null> {
         return this._clientMode === "production" ? (await this._redisClient.get(key)) : (this._nodeClient.get(key) as string) || null;
     }
+
+    static async del(key: string) {
+        if (this._clientMode === "production") {
+            await this._redisClient.del(key);
+        } else {
+            this._nodeClient.del(key);
+        }
+    }
+
+    static async flush() {
+        if (this._clientMode === "production") {
+            await this._redisClient.flushDb();
+        } else {
+            this._nodeClient.flushAll();
+        }
+    }
+
+    static async allKeys(): Promise<string[]> {
+        return this._clientMode === "production"
+            ? await this._redisClient.keys("*")
+            : this._nodeClient.keys();
+    }
+
+    static async has(key: string): Promise<boolean> {
+        return this._clientMode === "production"
+            ? (await this._redisClient.exists(key)) === 1
+            : this._nodeClient.has(key);
+    }
+
+    static async addKVtoHash(hash: string, key: string, value: string) {
+        if (this._clientMode === "production") {
+            await this._redisClient.hSet(hash, key, value);
+        } else {
+            const existingHash = this._nodeClient.get(hash) as Record<string, string> | undefined;
+            const updatedHash = { ...(existingHash || {}), [key]: value };
+            this._nodeClient.set(hash, updatedHash);
+        }
+    }
+
+    static async getKVfromHash(hash: string, key: string): Promise<string | null> {
+        if (this._clientMode === "production") {
+            const value = await this._redisClient.hGet(hash, key);
+            return value || null;
+        } else {
+            const existingHash = this._nodeClient.get(hash) as Record<string, string> | undefined;
+            return (existingHash && existingHash[key]) || null;
+        }
+    }
+
+    static async getAllFromHash(hash: string): Promise<Record<string, string> | null> {
+        if (this._clientMode === "production") {
+            const value = await this._redisClient.hGetAll(hash);
+            return Object.keys(value).length ? value : null;
+        } else {
+            const existingHash = this._nodeClient.get(hash) as Record<string, string> | undefined;
+            return existingHash || null;
+        }
+    }
+
+    static async delKVfromHash(hash: string, key: string) {
+        if (this._clientMode === "production") {
+            await this._redisClient.hDel(hash, key);
+        } else {
+            const existingHash = this._nodeClient.get(hash) as Record<string, string> | undefined;
+            if (existingHash && existingHash[key]) {
+                delete existingHash[key];
+                this._nodeClient.set(hash, existingHash);
+            }
+        }
+    }
 }

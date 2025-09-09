@@ -2,11 +2,13 @@ import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
+import { requestId } from "hono/request-id";
 
 import "./configs";
 
 import cacheClient from "./helpers/cache.factory";
 import discordBotConnect from "./helpers/discord_bot_client";
+import { Mailer } from "./helpers/mailer";
 import { notFoundHandler } from "./libs";
 import pkg from "./package.json" assert { type: "json" };
 import routes from "./routes";
@@ -18,6 +20,7 @@ console.log("🚀", "@b68/api", "v" + pkg.version);
 cacheClient.init();
 
 discordBotConnect();
+await Mailer.initialize();
 
 app.use(
     "*",
@@ -29,6 +32,7 @@ app.use(
     }),
 );
 
+app.use("*", requestId());
 app.use("*", logger());
 
 console.log("☄", "Base Route", "/");
