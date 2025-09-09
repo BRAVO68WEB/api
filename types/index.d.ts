@@ -12,3 +12,13 @@ interface IContactFormInput {
     subject: string;
     message: string;
 }
+
+interface IServerInfo {
+    ip: string;
+    country: string;
+    region: string;
+    city: string;
+    arch: string;
+    usecases: string;
+    provider: string;
+}

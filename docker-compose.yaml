@@ -38,6 +38,10 @@ services:
       - MAIL_FROM_NAME
       - HTB_TOKEN
       - REDIS_URL=redis://redis:6379
+      - FLAGSMITH_SERVER_ENV_KEY
+      - FLAGSMITH_API_URL
+    depends_on:
+      - redis
 
   redis:
     image: redis:7-alpine

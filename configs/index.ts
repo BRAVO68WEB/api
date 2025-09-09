@@ -1,4 +1,7 @@
 import { z } from "zod";
+import flagsmith from "./features/flag";
+import { featureToggleSettings } from "./features/contrants";
+
 declare global {
     // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace NodeJS {
@@ -35,9 +38,31 @@ const ZodEnvironmentVariables = z.object({
     MAIL_LOGGER: z.string(),
     MAIL_FROM_EMAIL: z.string(),
     MAIL_FROM_NAME: z.string(),
-    HTB_TOKEN: z.string()
+    HTB_TOKEN: z.string(),
+    FLAGSMITH_SERVER_ENV_KEY: z.string(),
+    FLAGSMITH_URL: z.string(),
 });
 
-ZodEnvironmentVariables.parse(process.env);
+try {
+    const envFlags = await flagsmith.getEnvironmentFlags()
+    const flags = envFlags.flags;
 
-console.log("✅ Environment variables verified!");
+    // Check for flag-dependent env vars
+    for (const [flag, envVars] of Object.entries(featureToggleSettings)) {
+        if (flags[flag]) {
+            if (flags[flag].enabled) {
+                for (const envVar of envVars) {
+                    if (!process.env[envVar]) {
+                        throw new Error(`Missing environment variable: ${envVar} (required by enabled flag: ${flag})`);
+                    }
+                }
+            }
+        }
+    }
+
+    console.log("✅ Environment variables verified!");
+}
+catch (error) {
+    console.error("❌ Invalid environment variables:", error);
+    process.exit(1);
+}

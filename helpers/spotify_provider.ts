@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios from "./axios_client";
+import { isFeatureEnabled, FEATURE_FLAGS } from "../configs/features/flag";
 
 const data = {
     grant_type: "refresh_token",
@@ -41,13 +42,16 @@ const getAccessToken = async () => {
         console.log("Token regenerated");
     }, 3_600_000);
 };
-if (process.env.NODE_ENV === "production") {
-    getAccessToken();
-} else {
-    // file deepcode ignore HardcodedNonCryptoSecret: "Testing HardcodedNonCryptoSecret for development"
-    accessToken = "ascawqw3efwsedve45gedrfwe34rwefrwsedgvbxxxxxxxxxxxxxxxxxxxxxxxx";
-    console.log("🤞", "Spotify Token not generated");
-}
+
+await isFeatureEnabled(FEATURE_FLAGS.SPOTIFY).then((enabled) => {
+    if (enabled) {
+        getAccessToken();
+    } else {
+        // file deepcode ignore HardcodedNonCryptoSecret: "Testing HardcodedNonCryptoSecret for development"
+        accessToken = "ascawqw3efwsedve45gedrfwe34rwefrwsedgvbxxxxxxxxxxxxxxxxxxxxxxxx";
+        console.log("⚠️ Spotify Feature Flag is disabled.");
+    }
+});
 
 export default () => {
     return accessToken;
